@@ -23,6 +23,8 @@
 #include "rgb_matrix_types.h"
 #include "color.h"
 #include "keyboard.h"
+#include "rgb_matrix_legacy_enables.h"
+
 
 #if defined(RGB_MATRIX_IS31FL3218)
 #    include "is31fl3218.h"
@@ -148,6 +150,12 @@ enum rgb_matrix_effects {
 #    ifdef RGB_MATRIX_CUSTOM_USER
 #        include "rgb_matrix_user.inc"
 #    endif
+#    undef RGB_MATRIX_EFFECT
+#endif
+
+#ifdef SIGNALRGB_ENABLE
+#    define RGB_MATRIX_EFFECT(name, ...) RGB_MATRIX_##name,
+#    include "signalrgb_anim.h"
 #    undef RGB_MATRIX_EFFECT
 #endif
     // --------------------------------------

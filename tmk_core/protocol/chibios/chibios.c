@@ -74,9 +74,14 @@ void virtser_task(void);
 void raw_hid_task(void);
 #endif
 
+#ifdef HIDRGB_PROTOCOL_ENABLE
+void hidrgb_hid_task(void);
+#endif
+
 #ifdef CONSOLE_ENABLE
 void console_task(void);
 #endif
+
 #ifdef MIDI_ENABLE
 void midi_ep_task(void);
 #endif
@@ -217,5 +222,8 @@ void protocol_post_task(void) {
 #endif
 #ifdef RAW_ENABLE
     raw_hid_task();
+#endif
+#ifdef HIDRGB_PROTOCOL_ENABLE
+    hidrgb_hid_task();
 #endif
 }
