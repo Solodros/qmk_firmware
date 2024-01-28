@@ -20,11 +20,22 @@
 #include "eeconfig.h"
 #include "bootloader.h"
 
+// ======== DEPRECATED FUNCTIONS - DO NOT USE ========
+extern void bootmagic_lite_reset_eeprom(void) __attribute__((weak));
+extern void bootmagic_lite(void) __attribute__((weak));
+// ========
+
 /** \brief Reset eeprom
  *
  * ...just incase someone wants to only change the eeprom behaviour
  */
 __attribute__((weak)) void bootmagic_reset_eeprom(void) {
+    // TODO: remove backwards compatibility
+    if (bootmagic_lite_reset_eeprom) {
+        bootmagic_lite_reset_eeprom();
+        return;
+    }
+
     eeconfig_disable();
 }
 
@@ -33,6 +44,12 @@ __attribute__((weak)) void bootmagic_reset_eeprom(void) {
  *  100% less potential for accidentally making the keyboard do stupid things.
  */
 __attribute__((weak)) void bootmagic(void) {
+    // TODO: remove backwards compatibility
+    if (bootmagic_lite) {
+        bootmagic_lite();
+        return;
+    }
+
     // We need multiple scans because debouncing can't be turned off.
     matrix_scan();
 #if defined(DEBOUNCE) && DEBOUNCE > 0
