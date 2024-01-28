@@ -19,7 +19,7 @@
 #    define DEBOUNCE 5
 #endif
 
-void bootmagic_lite(void)
+void bootmagic(void)
 {
 	// The lite version of TMK's bootmagic made by Wilba.
 	// 100% less potential for accidentally making the
@@ -49,7 +49,7 @@ void bootmagic_lite(void)
 void matrix_init_kb(void) {
 	// put your keyboard start-up code here
 	// runs once when the firmware starts up
-	bootmagic_lite();
+	bootmagic();
 
 	matrix_init_user();
 }

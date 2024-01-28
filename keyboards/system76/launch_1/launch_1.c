@@ -86,16 +86,16 @@ void eeprom_set_valid(bool valid) {
     eeprom_update_byte(((void *)EEPROM_VERSION_ADDR), valid ? EEPROM_VERSION : 0xFF);
 }
 
-void bootmagic_lite_reset_eeprom(void) {
+void bootmagic_reset_eeprom(void) {
     // Set the keyboard-specific EEPROM state as invalid
     eeprom_set_valid(false);
     // Set the TMK/QMK EEPROM state as invalid
     eeconfig_disable();
 }
 
-// The lite version of TMK's bootmagic based on Wilba.
+// The abridged version of TMK's bootmagic based on Wilba.
 // 100% less potential for accidentally making the keyboard do stupid things.
-void bootmagic_lite(void) {
+void bootmagic(void) {
     // Perform multiple scans because debouncing can't be turned off.
     matrix_scan();
 #if defined(DEBOUNCE) && DEBOUNCE > 0
@@ -107,11 +107,11 @@ void bootmagic_lite(void) {
 
     // If the configured key (commonly Esc) is held down on power up,
     // reset the EEPROM valid state and jump to bootloader.
-    uint8_t row = 0;  // BOOTMAGIC_LITE_ROW;
-    uint8_t col = 0;  // BOOTMAGIC_LITE_COLUMN;
+    uint8_t row = 0;  // BOOTMAGIC_ROW;
+    uint8_t col = 0;  // BOOTMAGIC_COLUMN;
 
     if (matrix_get_row(row) & (1 << col)) {
-        bootmagic_lite_reset_eeprom();
+        bootmagic_reset_eeprom();
 
         // Jump to bootloader.
         bootloader_jump();
@@ -128,7 +128,7 @@ rgb_config_t layer_rgb[DYNAMIC_KEYMAP_LAYER_COUNT];
 void matrix_init_kb(void) {
     usb_mux_init();
 
-    bootmagic_lite();
+    bootmagic();
     if (!eeprom_is_valid()) {
         dynamic_keymap_reset();
         dynamic_keymap_macro_reset();

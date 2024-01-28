@@ -24,15 +24,15 @@
  *
  * ...just incase someone wants to only change the eeprom behaviour
  */
-__attribute__((weak)) void bootmagic_lite_reset_eeprom(void) {
+__attribute__((weak)) void bootmagic_reset_eeprom(void) {
     eeconfig_disable();
 }
 
-/** \brief The lite version of TMK's bootmagic based on Wilba.
+/** \brief The abridged version of TMK's bootmagic based on Wilba.
  *
  *  100% less potential for accidentally making the keyboard do stupid things.
  */
-__attribute__((weak)) void bootmagic_lite(void) {
+__attribute__((weak)) void bootmagic(void) {
     // We need multiple scans because debouncing can't be turned off.
     matrix_scan();
 #if defined(DEBOUNCE) && DEBOUNCE > 0
@@ -46,24 +46,20 @@ __attribute__((weak)) void bootmagic_lite(void) {
     // reset the EEPROM valid state and jump to bootloader.
     // This isn't very generalized, but we need something that doesn't
     // rely on user's keymaps in firmware or EEPROM.
-    uint8_t row = BOOTMAGIC_LITE_ROW;
-    uint8_t col = BOOTMAGIC_LITE_COLUMN;
+    uint8_t row = BOOTMAGIC_ROW;
+    uint8_t col = BOOTMAGIC_COLUMN;
 
-#if defined(SPLIT_KEYBOARD) && defined(BOOTMAGIC_LITE_ROW_RIGHT) && defined(BOOTMAGIC_LITE_COLUMN_RIGHT)
+#if defined(SPLIT_KEYBOARD) && defined(BOOTMAGIC_ROW_RIGHT) && defined(BOOTMAGIC_COLUMN_RIGHT)
     if (!is_keyboard_left()) {
-        row = BOOTMAGIC_LITE_ROW_RIGHT;
-        col = BOOTMAGIC_LITE_COLUMN_RIGHT;
+        row = BOOTMAGIC_ROW_RIGHT;
+        col = BOOTMAGIC_COLUMN_RIGHT;
     }
 #endif
 
     if (matrix_get_row(row) & (1 << col)) {
-        bootmagic_lite_reset_eeprom();
+        bootmagic_reset_eeprom();
 
         // Jump to bootloader.
         bootloader_jump();
     }
-}
-
-void bootmagic(void) {
-    bootmagic_lite();
 }
