@@ -929,14 +929,6 @@ ifeq ($(strip $(AUTO_SWITCH_LAYERS_ENABLE)), yes)
 	OPT_DEFS += -DAUTO_SWITCH_LAYERS_ENABLE
 endif
 
-ifeq ($(strip $(OS_DETECTION_ENABLE)), yes)
-    SRC += $(QUANTUM_DIR)/os_detection.c
-    OPT_DEFS += -DOS_DETECTION_ENABLE
-    ifeq ($(strip $(OS_DETECTION_DEBUG_ENABLE)), yes)
-        OPT_DEFS += -DOS_DETECTION_DEBUG_ENABLE
-    endif
-endif
-
 ifeq ($(strip $(JOYSTICK_TRIGGER_ENABLE)), yes)
     SRC += $(QUANTUM_DIR)/joystick_trigger.c
 	QUANTUM_LIB_SRC += analog.c
