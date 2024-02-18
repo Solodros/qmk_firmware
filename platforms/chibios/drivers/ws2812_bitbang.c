@@ -9,7 +9,11 @@
 #    if defined(STM32F0XX) || defined(STM32F1XX) || defined(GD32VF103) || defined(STM32F3XX) || defined(STM32F4XX) || defined(STM32L0XX) || defined(WB32F3G71xx) || defined(WB32FQ95xx) || defined(AIR32F10x) || defined(AT32F415xx) || defined(AT32F413xx) || defined(AT32F403_7xx) || defined(AT32F402_5xx) || defined(AT32F435_7xx) || defined(AT32F423xx)
 #        define NOP_FUDGE 0.4
 #    else
-#        error("NOP_FUDGE configuration required")
+#        if defined(RP2040)
+#            error "Please use `vendor` WS2812 driver for RP2040"
+#        else
+#            error "NOP_FUDGE configuration required"
+#        endif
 #        define NOP_FUDGE 1 // this just pleases the compile so the above error is easier to spot
 #    endif
 #endif
