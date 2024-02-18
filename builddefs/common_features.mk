@@ -801,20 +801,8 @@ ifeq ($(strip $(UNICODE_COMMON)), yes)
            $(QUANTUM_DIR)/unicode/utf8.c
 endif
 
-MAGIC_ENABLE ?= yes
-ifeq ($(strip $(MAGIC_ENABLE)), yes)
-    SRC += $(QUANTUM_DIR)/process_keycode/process_magic.c
-    OPT_DEFS += -DMAGIC_KEYCODE_ENABLE
-endif
 
 
-ifeq ($(strip $(AUTO_SHIFT_ENABLE)), yes)
-    SRC += $(QUANTUM_DIR)/process_keycode/process_auto_shift.c
-    OPT_DEFS += -DAUTO_SHIFT_ENABLE
-    ifeq ($(strip $(AUTO_SHIFT_MODIFIERS)), yes)
-        OPT_DEFS += -DAUTO_SHIFT_MODIFIERS
-    endif
-endif
 
 ifeq ($(strip $(PS2_MOUSE_ENABLE)), yes)
     PS2_ENABLE := yes
@@ -931,7 +919,8 @@ endif
 
 ifeq ($(strip $(JOYSTICK_TRIGGER_ENABLE)), yes)
     SRC += $(QUANTUM_DIR)/joystick_trigger.c
-	QUANTUM_LIB_SRC += analog.c
+#    QUANTUM_LIB_SRC += analog.c
+    ANALOG_DRIVER_REQUIRED = yes
     OPT_DEFS += -DJOYSTICK_TRIGGER_ENABLE
 endif
 
