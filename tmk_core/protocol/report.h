@@ -188,7 +188,7 @@ typedef struct {
 typedef struct {
     uint8_t  report_id;
     uint16_t usage;
-} __attribute__((packed)) report_radial_t;
+} PACKED report_radial_t;
 
 typedef struct {
     uint8_t  report_id;
