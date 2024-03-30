@@ -1,4 +1,4 @@
-/* Copyright 2020 marksard
+/* Copyright 2023 astro
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,16 @@
 
 #pragma once
 
-// place overrides here
-#define TAPPING_TERM 200
-#define TAPPING_LAYER_TERM 150 // Custom LT Tapping term
-#define TAPPING_TERM_PER_KEY
+#include_next <mcuconf.h>
+
+#undef STM32_PLLM_VALUE
+#define STM32_PLLM_VALUE    16
+
+#undef STM32_PLLN_VALUE
+#define STM32_PLLN_VALUE    192
+
+#undef STM32_PLLP_VALUE
+#define STM32_PLLP_VALUE    2
+
+#undef STM32_PLLQ_VALUE
+#define STM32_PLLQ_VALUE    4

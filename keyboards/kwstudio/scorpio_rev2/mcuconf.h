@@ -1,4 +1,4 @@
-/* Copyright 2020 marksard
+/* Copyright 2024 kwstudio
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,8 +15,7 @@
  */
 
 #pragma once
+#include_next <mcuconf.h>
 
-// place overrides here
-#define TAPPING_TERM 200
-#define TAPPING_LAYER_TERM 150 // Custom LT Tapping term
-#define TAPPING_TERM_PER_KEY
+#undef STM32_PWM_USE_TIM1
+#define STM32_PWM_USE_TIM1 TRUE
