@@ -29,7 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // clang-format off
 
 /* HID report IDs */
-enum hid_report_ids {
+enum hid_report_ids { 
+    REPORT_ID_ALL = 0,
     REPORT_ID_KEYBOARD = 1,
     REPORT_ID_MOUSE,
     REPORT_ID_SYSTEM,
@@ -38,8 +39,11 @@ enum hid_report_ids {
     REPORT_ID_PROGRAMMABLE_BUTTON,
     REPORT_ID_NKRO,
     REPORT_ID_JOYSTICK,
-    REPORT_ID_DIGITIZER
+    REPORT_ID_DIGITIZER,
+    REPORT_ID_COUNT = REPORT_ID_DIGITIZER
 };
+
+#define IS_VALID_REPORT_ID(id) ((id) >= REPORT_ID_ALL && (id) <= REPORT_ID_COUNT)
 
 /* Mouse buttons */
 #define MOUSE_BTN_MASK(n) (1 << (n))
@@ -188,7 +192,7 @@ typedef struct {
 typedef struct {
     uint8_t  report_id;
     uint16_t usage;
-} __attribute__((packed)) report_radial_t;
+} PACKED report_radial_t;
 
 typedef struct {
     uint8_t  report_id;
