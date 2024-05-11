@@ -32,14 +32,14 @@ static bool encoder_handle_queue(void) {
 
         // The delays below cater for Windows and its wonderful requirements.
         action_exec(event.clockwise ? MAKE_ENCODER_CW_EVENT(event.index, true) : MAKE_ENCODER_CCW_EVENT(event.index, true));
-#    if ENCODER_MAP_KEY_DELAY > 0
+    if (ENCODER_MAP_KEY_DELAY > 0){
         wait_ms(ENCODER_MAP_KEY_DELAY);
-#    endif // ENCODER_MAP_KEY_DELAY > 0
+    }
 
         action_exec(event.clockwise ? MAKE_ENCODER_CW_EVENT(event.index, false) : MAKE_ENCODER_CCW_EVENT(event.index, false));
-#    if ENCODER_MAP_KEY_DELAY > 0
+    if (ENCODER_MAP_KEY_DELAY > 0){
         wait_ms(ENCODER_MAP_KEY_DELAY);
-#    endif // ENCODER_MAP_KEY_DELAY > 0
+    }
 
 #else // ENCODER_MAP_ENABLE
 
