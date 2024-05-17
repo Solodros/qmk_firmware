@@ -21,16 +21,36 @@ bool ALPHAS_MODS(effect_params_t* params) {
     }
 
 #else
-    for (uint8_t i = led_min; i < LED_CENTER; i++) {
-        RGB_MATRIX_TEST_LED_FLAGS();
-        rgb_matrix_set_color(i, rgb2.r, rgb2.g, rgb2.b);
-       
-    };
-    for (uint8_t i = LED_CENTER; i < led_max; i++) {
-        RGB_MATRIX_TEST_LED_FLAGS();
-        rgb_matrix_set_color(i, rgb1.r, rgb1.g, rgb1.b);
-       
-    };
+    for (uint8_t i = led_min; i <= 20; i++) {
+    RGB_MATRIX_TEST_LED_FLAGS();
+    rgb_matrix_set_color(i, rgb2.r, rgb2.g, rgb2.b);
+}
+
+for (uint8_t i = 44; i <= 62; i++) {
+    RGB_MATRIX_TEST_LED_FLAGS();
+    rgb_matrix_set_color(i, rgb2.r, rgb2.g, rgb2.b);
+}
+
+for (uint8_t i = 86; i <= 102; i++) {
+    RGB_MATRIX_TEST_LED_FLAGS();
+    rgb_matrix_set_color(i, rgb2.r, rgb2.g, rgb2.b);
+}
+
+for (uint8_t i = 21; i <= 43; i++) {
+    RGB_MATRIX_TEST_LED_FLAGS();
+    rgb_matrix_set_color(i, rgb1.r, rgb1.g, rgb1.b);
+}
+
+for (uint8_t i = 63; i <= 85; i++) {
+    RGB_MATRIX_TEST_LED_FLAGS();
+    rgb_matrix_set_color(i, rgb1.r, rgb1.g, rgb1.b);
+}
+
+for (uint8_t i = 103; i <= led_max; i++) {
+    RGB_MATRIX_TEST_LED_FLAGS();
+    rgb_matrix_set_color(i, rgb1.r, rgb1.g, rgb1.b);
+}
+
 #endif
     return rgb_matrix_check_finished_leds(led_max);
 }
