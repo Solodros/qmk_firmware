@@ -119,7 +119,7 @@
 #else
 #    define RGB_MATRIX_INDICATORS_TASK(rgb_effect_params)                          \
         do {                                                                       \
-            if (rgb_effect_params.iter == RGB_MATRIX_LED_PROCESS_MAX_ITERATIONS) { \
+           if (rgb_task_state == FLUSHING) {                                       \
                 rgb_matrix_indicators();                                           \
             }                                                                      \
             rgb_matrix_indicators_advanced(&rgb_effect_params);                    \

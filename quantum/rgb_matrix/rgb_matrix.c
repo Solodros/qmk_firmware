@@ -536,11 +536,11 @@ void rgb_matrix_init(void) {
     ALTER_init();
 #endif
 
-    if (!eeconfig_is_enabled()) {
-        dprintf("rgb_matrix_init_drivers eeconfig is not enabled.\n");
-        eeconfig_init();
-        eeconfig_update_rgb_matrix_default();
-    }
+//    if (!eeconfig_is_enabled()) {
+//        dprintf("rgb_matrix_init_drivers eeconfig is not enabled.\n");
+//        eeconfig_init();
+//        eeconfig_update_rgb_matrix_default();
+//    }https://github.com/qmk/qmk_firmware/commit/dc5befd13906f193f6ee8c2f9ace01100a167b20#diff-84fd35110156133ab82c877ed6c101b5608a69d745df9f18e819af4c1de74fbd
 
     eeconfig_init_rgb_matrix();
     if (!rgb_matrix_config.mode) {
