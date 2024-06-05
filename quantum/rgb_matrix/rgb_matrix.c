@@ -629,8 +629,22 @@ uint8_t rgb_matrix_get_mode(void) {
 
 void rgb_matrix_step_helper(bool write_to_eeprom) {
     uint8_t mode = rgb_matrix_config.mode + 1;
+#   ifdef OPENRGB_ENABLE   
+    if (mode == RGB_MATRIX_OPENRGB_DIRECT) { 
+        mode = mode + 1;
+    }
+#   endif
+
+#   ifdef SIGNALRGB_ENABLE   
+    if (mode == RGB_MATRIX_SIGNALRGB) { 
+        mode = mode + 1;
+    }
+#   endif
+
     rgb_matrix_mode_eeprom_helper((mode < RGB_MATRIX_EFFECT_MAX) ? mode : 1, write_to_eeprom);
+
 }
+
 void rgb_matrix_step_noeeprom(void) {
     rgb_matrix_step_helper(false);
 }
@@ -640,8 +654,24 @@ void rgb_matrix_step(void) {
 
 void rgb_matrix_step_reverse_helper(bool write_to_eeprom) {
     uint8_t mode = rgb_matrix_config.mode - 1;
+#   ifdef OPENRGB_ENABLE   
+    if (mode == RGB_MATRIX_OPENRGB_DIRECT) { 
+        mode = mode - 1;
+    }
+#   endif
+
+#   ifdef SIGNALRGB_ENABLE   
+    if (mode == RGB_MATRIX_SIGNALRGB) { 
+        mode = mode - 1;
+    }
+#   endif
+
     rgb_matrix_mode_eeprom_helper((mode < 1) ? RGB_MATRIX_EFFECT_MAX - 1 : mode, write_to_eeprom);
+
 }
+
+
+
 void rgb_matrix_step_reverse_noeeprom(void) {
     rgb_matrix_step_reverse_helper(false);
 }
