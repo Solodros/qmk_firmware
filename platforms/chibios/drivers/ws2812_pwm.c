@@ -318,6 +318,10 @@ void ws2812_init(void) {
 
     palSetLineMode(WS2812_DI_PIN, WS2812_OUTPUT_MODE);
 
+#if defined RGB_MATRIX_ENABLE //如果不用rgb matirx而是rgblight，那么所有灯会亮白色
+    gpio_write_pin_low(WS2812_DI_PIN);//ws2812io初始化拉低避免亮绿灯
+#endif
+
     // PWM Configuration
     //#pragma GCC diagnostic ignored "-Woverride-init"  // Turn off override-init warning for this struct. We use the overriding ability to set a "default" channel config
     static const PWMConfig ws2812_pwm_config = {
