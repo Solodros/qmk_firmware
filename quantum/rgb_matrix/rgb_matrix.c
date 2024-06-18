@@ -29,13 +29,6 @@
 
 #include <lib/lib8tion/lib8tion.h>
 
-#ifdef OPENRGB_ENABLE
-#    include "openrgb.h"
-#endif
-
-#ifdef SIGNALRGB_ENABLE
-#    include "signalrgb.h"
-#endif
 
 #ifdef RGB_MATRIX_CONTROL_ENABLE
 #    include "rgb_matrix_control.h"
@@ -77,9 +70,6 @@ __attribute__((weak)) RGB rgb_matrix_hsv_to_rgb(HSV hsv) {
 #endif
 #ifdef RGB_MATRIX_CUSTOM_USER
 #    include "rgb_matrix_user.inc"
-#endif
-#ifdef SIGNALRGB_ENABLE
-#    include "signalrgb_anim.h"
 #endif
 
 #undef RGB_MATRIX_CUSTOM_EFFECT_IMPLS
@@ -354,15 +344,6 @@ static void rgb_task_render(uint8_t effect) {
 #    endif
 #    undef RGB_MATRIX_EFFECT
 #endif
-
-#ifdef SIGNALRGB_ENABLE
-#define RGB_MATRIX_EFFECT(name, ...)              \
-        case RGB_MATRIX_##name:                   \
-            rendering = name(&rgb_effect_params); \
-            break;
-#    include "signalrgb_anim.h"
-#    undef RGB_MATRIX_EFFECT
-#endif
             // -----End rgb effect switch case macros-------
             // ---------------------------------------------
 
@@ -629,18 +610,6 @@ uint8_t rgb_matrix_get_mode(void) {
 
 void rgb_matrix_step_helper(bool write_to_eeprom) {
     uint8_t mode = rgb_matrix_config.mode + 1;
-#   ifdef OPENRGB_ENABLE   
-    if (mode == RGB_MATRIX_OPENRGB_DIRECT) { 
-        mode = mode + 1;
-    }
-#   endif
-
-#   ifdef SIGNALRGB_ENABLE   
-    if (mode == RGB_MATRIX_SIGNALRGB) { 
-        mode = mode + 1;
-    }
-#   endif
-
     rgb_matrix_mode_eeprom_helper((mode < RGB_MATRIX_EFFECT_MAX) ? mode : 1, write_to_eeprom);
 
 }
@@ -654,18 +623,6 @@ void rgb_matrix_step(void) {
 
 void rgb_matrix_step_reverse_helper(bool write_to_eeprom) {
     uint8_t mode = rgb_matrix_config.mode - 1;
-#   ifdef OPENRGB_ENABLE   
-    if (mode == RGB_MATRIX_OPENRGB_DIRECT) { 
-        mode = mode - 1;
-    }
-#   endif
-
-#   ifdef SIGNALRGB_ENABLE   
-    if (mode == RGB_MATRIX_SIGNALRGB) { 
-        mode = mode - 1;
-    }
-#   endif
-
     rgb_matrix_mode_eeprom_helper((mode < 1) ? RGB_MATRIX_EFFECT_MAX - 1 : mode, write_to_eeprom);
 
 }

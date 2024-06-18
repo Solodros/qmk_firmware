@@ -209,13 +209,13 @@ else
     ifeq ($(PLATFORM),AVR)
       # Automatically provided by avr-libc, nothing required
     else ifeq ($(PLATFORM),CHIBIOS)
-      ifneq ($(filter %_STM32F072xB %_STM32F072xB_uf2 %_STM32F042x6, $(MCU_SERIES)_$(MCU_LDSCRIPT)),)
+      ifneq ($(filter %_STM32F072xB %_STM32F042x6, $(MCU_SERIES)_$(MCU_LDSCRIPT)),)
         # STM32 Emulated EEPROM, backed by MCU flash (soon to be deprecated)
         OPT_DEFS += -DEEPROM_DRIVER -DEEPROM_LEGACY_EMULATED_FLASH
         COMMON_VPATH += $(PLATFORM_PATH)/$(PLATFORM_KEY)/$(DRIVER_DIR)/flash
         COMMON_VPATH += $(DRIVER_PATH)/flash
         SRC += eeprom_driver.c eeprom_legacy_emulated_flash.c legacy_flash_ops.c
-      else ifneq ($(filter $(MCU_SERIES),STM32F1xx STM32F3xx STM32F4xx STM32L4xx STM32G4xx WB32F3G71xx WB32FQ95xx GD32VF103 AIR32F10x AT32F415xx AT32F413xx AT32F403_7xx AT32F435_7xx AT32F402_5xx AT32F423xx),)
+      else ifneq ($(filter $(MCU_SERIES),STM32F1xx STM32F3xx STM32F4xx STM32L4xx STM32G4xx WB32F3G71xx WB32FQ95xx GD32VF103),)
         # Wear-leveling EEPROM implementation, backed by MCU flash
         OPT_DEFS += -DEEPROM_DRIVER -DEEPROM_WEAR_LEVELING
         SRC += eeprom_driver.c eeprom_wear_leveling.c
@@ -925,18 +925,6 @@ ifeq ($(strip $(AUTO_SWITCH_LAYERS_ENABLE)), yes)
 	OPT_DEFS += -DAUTO_SWITCH_LAYERS_ENABLE
 endif
 
-ifeq ($(strip $(JOYSTICK_TRIGGER_ENABLE)), yes)
-    SRC += $(QUANTUM_DIR)/joystick_trigger.c
-#    QUANTUM_LIB_SRC += analog.c
-    ANALOG_DRIVER_REQUIRED = yes
-    OPT_DEFS += -DJOYSTICK_TRIGGER_ENABLE
-endif
-
-ifeq ($(strip $(RADIAL_CONTROLLER_ENABLE)), yes)
-    SRC += $(QUANTUM_DIR)/radial_controller.c
-    OPT_DEFS += -DRADIAL_CONTROLLER_ENABLE
-endif
-
 ifeq ($(strip $(RGB_MATRIX_CONTROL_ENABLE)), yes)
 	ifeq ($(strip $(RGB_MATRIX_ENABLE)), no)
         $(error RGB_MATRIX_CONTROL_ENABLE requires RGB_MATRIX_ENABLE, either disable RGB_MATRIX_CONTROL explicitly or enable RGB_MATRIX)
@@ -953,29 +941,6 @@ ifeq ($(strip $(UNDERGLOW_RGB_MATRIX_ENABLE)), yes)
     EECONFIG_EXTENDED_FOR_ZQ := yes
     SRC += $(QUANTUM_DIR)/rgb_matrix/underglow_rgb_matrix.c
     OPT_DEFS += -DUNDERGLOW_RGB_MATRIX_ENABLE
-endif
-
-ifeq ($(strip $(OPENRGB_ENABLE)), yes)
-	ifeq ($(strip $(RGB_MATRIX_ENABLE)), no)
-        $(error OPENRGB_ENABLE requires RGB_MATRIX_ENABLE, either disable OPENRGB_ENABLE explicitly or enable RGB_MATRIX)
-    endif
-    HIDRGB_PROTOCOL_ENABLE := yes
-    SRC += $(QUANTUM_DIR)/rgb_matrix/openrgb.c
-    OPT_DEFS += -DOPENRGB_ENABLE 
-endif
-
-ifeq ($(strip $(SIGNALRGB_ENABLE)), yes)
-	ifeq ($(strip $(RGB_MATRIX_ENABLE)), no)
-        $(error SIGNALRGB_ENABLE requires RGB_MATRIX_ENABLE, either disable SIGNALRGB_ENABLE explicitly or enable RGB_MATRIX)
-    endif
-    HIDRGB_PROTOCOL_ENABLE := yes
-    SRC += $(QUANTUM_DIR)/rgb_matrix/signalrgb.c
-    OPT_DEFS += -DSIGNALRGB_ENABLE
-endif
-
-ifeq ($(strip $(HIDRGB_PROTOCOL_ENABLE)), yes)
-    SRC += $(QUANTUM_DIR)/hidrgb_protocol.c
-    OPT_DEFS += -DHIDRGB_PROTOCOL_ENABLE
 endif
 
 VALID_RGB_INDICATORS_TYPES := solid dynamic
@@ -1039,10 +1004,6 @@ ifeq ($(strip $(DYNAMIC_COMBOS_ENABLE)), yes)
 	OPT_DEFS += -DDYNAMIC_COMBOS_ENABLE
 endif
 
-ifeq ($(strip $(QMK_USB_SUPPORT_HS)), yes)
-	OPT_DEFS += -DQMK_USB_SUPPORT_HS
-endif
-
 VALID_WS2812_DRIVER_TYPES := bitbang custom i2c pwm spi vendor
 
 WS2812_DRIVER ?= bitbang
@@ -1058,9 +1019,6 @@ ifeq ($(strip $(WS2812_DRIVER_REQUIRED)), yes)
     ifeq ($(strip $(PLATFORM)), CHIBIOS)
         ifeq ($(strip $(WS2812_DRIVER)), pwm)
             OPT_DEFS += -DSTM32_DMA_REQUIRED=TRUE
-            OPT_DEFS += -DGD32_DMA_REQUIRED=TRUE
-            OPT_DEFS += -DAIR32_DMA_REQUIRED=TRUE
-            OPT_DEFS += -DAT32_DMA_REQUIRED=TRUE
         endif
     endif
 

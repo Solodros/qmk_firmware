@@ -23,14 +23,6 @@ enum via_custom_keycodes {
     MACOS_FN_VKEY,
 #endif
 
-#ifdef RADIAL_CONTROLLER_ENABLE
-    RD_BUT,
-    RD_L,
-    RD_R,
-    RD_LC,
-    RD_RC,
-#endif
-
 #ifdef RGB_MATRIX_CONTROL_ENABLE
 #ifndef RGB_MATRIX_CONTROL_SWITCH_ENABLE
 	UG_R_T,

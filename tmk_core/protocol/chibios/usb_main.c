@@ -373,9 +373,6 @@ typedef struct {
 #ifdef RAW_ENABLE
             usb_driver_config_t raw_driver;
 #endif
-#ifdef HIDRGB_PROTOCOL_ENABLE
-            usb_driver_config_t hidrgb_driver;
-#endif
 #ifdef MIDI_ENABLE
             usb_driver_config_t midi_driver;
 #endif
@@ -398,13 +395,6 @@ static usb_driver_configs_t drivers = {
 #    define RAW_IN_MODE USB_EP_MODE_TYPE_INTR
 #    define RAW_OUT_MODE USB_EP_MODE_TYPE_INTR
     .raw_driver = QMK_USB_DRIVER_CONFIG(RAW, 0, false),
-#endif
-#ifdef HIDRGB_PROTOCOL_ENABLE
-#    define HIDRGB_IN_CAPACITY 4
-#    define HIDRGB_OUT_CAPACITY 4
-#    define HIDRGB_IN_MODE USB_EP_MODE_TYPE_INTR
-#    define HIDRGB_OUT_MODE USB_EP_MODE_TYPE_INTR
-    .hidrgb_driver = QMK_USB_DRIVER_CONFIG(HIDRGB, 0, false),
 #endif
 
 #ifdef MIDI_ENABLE
@@ -915,12 +905,6 @@ void send_extra(report_extra_t *report) {
 #endif
 }
 
-void send_radial(report_radial_t *report) {
-#ifdef RADIAL_CONTROLLER_ENABLE
-    send_report(SHARED_IN_EPNUM, report, sizeof(report_radial_t));
-#endif
-}
-
 void send_programmable_button(report_programmable_button_t *report) {
 #ifdef PROGRAMMABLE_BUTTON_ENABLE
     send_report(SHARED_IN_EPNUM, report, sizeof(report_programmable_button_t));
@@ -1002,34 +986,6 @@ void raw_hid_task(void) {
         size = chnReadTimeout(&drivers.raw_driver.driver, buffer, sizeof(buffer), TIME_IMMEDIATE);
         if (size > 0) {
             raw_hid_receive(buffer, size);
-        }
-    } while (size > 0);
-}
-
-#endif
-
-#ifdef HIDRGB_PROTOCOL_ENABLE
-void hidrgb_hid_send(uint8_t *data, uint8_t length) {
-    // TODO: implement variable size packet
-    if (length != HIDRGB_EPSIZE) {
-        return;
-    }
-    chnWrite(&drivers.hidrgb_driver.driver, data, length);
-}
-
-__attribute__((weak)) void hidrgb_hid_receive(uint8_t *data, uint8_t length) {
-    // Users should #include "raw_hid.h" in their own code
-    // and implement this function there. Leave this as weak linkage
-    // so users can opt to not handle data coming in.
-}
-
-void hidrgb_hid_task(void) {
-    uint8_t buffer[HIDRGB_EPSIZE];
-    size_t  size = 0;
-    do {
-        size_t size = chnReadTimeout(&drivers.hidrgb_driver.driver, buffer, sizeof(buffer), TIME_IMMEDIATE);
-        if (size > 0) {
-            hidrgb_hid_receive(buffer, size);
         }
     } while (size > 0);
 }

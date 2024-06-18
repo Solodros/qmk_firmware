@@ -140,9 +140,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef OS_DETECTION_ENABLE
 #    include "os_detection.h"
 #endif
-#ifdef JOYSTICK_TRIGGER_ENABLE
-#    include "joystick_trigger.h"
-#endif
 
 #ifdef RGB_MATRIX_CONTROL_ENABLE
 #    include "rgb_matrix_control.h"
@@ -536,9 +533,6 @@ void keyboard_init(void) {
 #ifdef BLUETOOTH_ENABLE
     bluetooth_init();
 #endif
-#ifdef JOYSTICK_TRIGGER_ENABLE
-    joystick_trigger_init();
-#endif
 
 #if defined(DEBUG_MATRIX_SCAN_RATE) && defined(CONSOLE_ENABLE)
     debug_enable = true;
@@ -710,9 +704,6 @@ void quantum_task(void) {
     secure_task();
 #endif
 
-#ifdef RADIAL_CONTROLLER_ENABLE
-    radial_controller_task();
-#endif
 }
 
 /** \brief Main task that is repeatedly called as fast as possible. */
@@ -795,10 +786,6 @@ void keyboard_task(void) {
 
 #ifdef BLUETOOTH_ENABLE
     bluetooth_task();
-#endif
-
-#ifdef JOYSTICK_TRIGGER_ENABLE
-    joystick_trigger_task();
 #endif
 
 #ifdef HAPTIC_ENABLE

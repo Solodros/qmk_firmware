@@ -2,9 +2,21 @@
 #include "gpio.h"
 #include "chibios_config.h"
 
+// ======== DEPRECATED DEFINES - DO NOT USE ========
+#ifdef WS2812_DMA_STREAM
+#    define WS2812_PWM_DMA_STREAM WS2812_DMA_STREAM
+#endif
+#ifdef WS2812_DMA_CHANNEL
+#    define WS2812_PWM_DMA_CHANNEL WS2812_DMA_CHANNEL
+#endif
+#ifdef WS2812_DMAMUX_ID
+#    define WS2812_PWM_DMAMUX_ID WS2812_DMAMUX_ID
+#endif
+// ========
+
 /* Adapted from https://github.com/joewa/WS2812-LED-Driver_ChibiOS/ */
 
-#ifdef RGBW
+#ifdef WS2812_RGBW
 #    define WS2812_CHANNELS 4
 #else
 #    define WS2812_CHANNELS 3
@@ -19,35 +31,24 @@
 #ifndef WS2812_PWM_PAL_MODE
 #    define WS2812_PWM_PAL_MODE 2 // DI Pin's alternate function value
 #endif
-#ifndef WS2812_DMA_STREAM
-#    define WS2812_DMA_STREAM STM32_DMA1_STREAM2 // DMA Stream for TIMx_UP
+#ifndef WS2812_PWM_DMA_STREAM
+#    define WS2812_PWM_DMA_STREAM STM32_DMA1_STREAM2 // DMA Stream for TIMx_UP
 #endif
-#ifndef WS2812_DMA_CHANNEL
-#    define WS2812_DMA_CHANNEL 2 // DMA Channel for TIMx_UP
+#ifndef WS2812_PWM_DMA_CHANNEL
+#    define WS2812_PWM_DMA_CHANNEL 2 // DMA Channel for TIMx_UP
 #endif
-#if (STM32_DMA_SUPPORTS_DMAMUX == TRUE) && !defined(WS2812_DMAMUX_ID)
-#    error "please consult your MCU's datasheet and specify in your config.h: #define WS2812_DMAMUX_ID STM32_DMAMUX1_TIM?_UP"
-#endif
-#if (AT32_DMA_SUPPORTS_DMAMUX == TRUE) 
-#    if defined(AT32_USE_DMA_V1) 
-#        if (AT32_DMA_USE_DMAMUX == TRUE) && !defined(WS2812_DMAMUX_CHANNEL) && !defined(WS2812_DMAMUX_ID)
-#            error "please consult your MCU's datasheet and specify in your config.h: #define WS2812_DMAMUX_CHANNEL 1 #define WS2812_DMAMUX_ID AT32_DMAMUX_TMR?_OVERFLOW"
-#        endif
-#    else
-#        if !defined(WS2812_DMAMUX_ID)
-#            error "please consult your MCU's datasheet and specify in your config.h: #define WS2812_DMAMUX_ID AT32_DMAMUX_TMR?_OVERFLOW"
-#        endif
-#    endif
+#if (STM32_DMA_SUPPORTS_DMAMUX == TRUE) && !defined(WS2812_PWM_DMAMUX_ID)
+#    error "please consult your MCU's datasheet and specify in your config.h: #define WS2812_PWM_DMAMUX_ID STM32_DMAMUX1_TIM?_UP"
 #endif
 
 /* Summarize https://www.st.com/resource/en/application_note/an4013-stm32-crossseries-timer-overview-stmicroelectronics.pdf to
  * figure out if we are using a 32bit timer. This is needed to setup the DMA controller correctly.
  * Ignore STM32H7XX and STM32U5XX as they are not supported by ChibiOS.
  */
-#if !defined(STM32F1XX) && !defined(STM32L0XX) && !defined(STM32L1XX) && !defined(AIR32F10x)
+#if !defined(STM32F1XX) && !defined(STM32L0XX) && !defined(STM32L1XX)
 #    define WS2812_PWM_TIMER_32BIT_PWMD2 1
 #endif
-#if !defined(STM32F1XX) && !defined(AIR32F10x)
+#if !defined(STM32F1XX)
 #    define WS2812_PWM_TIMER_32BIT_PWMD5 1
 #endif
 #define WS2812_CONCAT1(a, b) a##b
@@ -261,7 +262,7 @@
 #    define WS2812_BLUE_BIT(led, bit) WS2812_BIT((led), 0, (bit))
 #endif
 
-#ifdef RGBW
+#ifdef WS2812_RGBW
 /**
  * @brief   Determine the index in @ref ws2812_frame_buffer "the frame buffer" of a given white bit
  *
@@ -281,20 +282,20 @@
 // For all other STM32 DMA transfer will automatically zero pad. We only need to set the right peripheral width.
 #if defined(STM32F2XX) || defined(STM32F4XX) || defined(STM32F7XX)
 #    if defined(WS2812_PWM_TIMER_32BIT)
-#        define WS2812_DMA_MEMORY_WIDTH STM32_DMA_CR_MSIZE_WORD
-#        define WS2812_DMA_PERIPHERAL_WIDTH STM32_DMA_CR_PSIZE_WORD
+#        define WS2812_PWM_DMA_MEMORY_WIDTH STM32_DMA_CR_MSIZE_WORD
+#        define WS2812_PWM_DMA_PERIPHERAL_WIDTH STM32_DMA_CR_PSIZE_WORD
 typedef uint32_t ws2812_buffer_t;
 #    else
-#        define WS2812_DMA_MEMORY_WIDTH STM32_DMA_CR_MSIZE_HWORD
-#        define WS2812_DMA_PERIPHERAL_WIDTH STM32_DMA_CR_PSIZE_HWORD
+#        define WS2812_PWM_DMA_MEMORY_WIDTH STM32_DMA_CR_MSIZE_HWORD
+#        define WS2812_PWM_DMA_PERIPHERAL_WIDTH STM32_DMA_CR_PSIZE_HWORD
 typedef uint16_t ws2812_buffer_t;
 #    endif
 #else
-#    define WS2812_DMA_MEMORY_WIDTH STM32_DMA_CR_MSIZE_BYTE
+#    define WS2812_PWM_DMA_MEMORY_WIDTH STM32_DMA_CR_MSIZE_BYTE
 #    if defined(WS2812_PWM_TIMER_32BIT)
-#        define WS2812_DMA_PERIPHERAL_WIDTH STM32_DMA_CR_PSIZE_WORD
+#        define WS2812_PWM_DMA_PERIPHERAL_WIDTH STM32_DMA_CR_PSIZE_WORD
 #    else
-#        define WS2812_DMA_PERIPHERAL_WIDTH STM32_DMA_CR_PSIZE_HWORD
+#        define WS2812_PWM_DMA_PERIPHERAL_WIDTH STM32_DMA_CR_PSIZE_HWORD
 #    endif
 typedef uint8_t ws2812_buffer_t;
 #endif
@@ -318,10 +319,6 @@ void ws2812_init(void) {
 
     palSetLineMode(WS2812_DI_PIN, WS2812_OUTPUT_MODE);
 
-#if defined RGB_MATRIX_ENABLE //如果不用rgb matirx而是rgblight，那么所有灯会亮白色
-    gpio_write_pin_low(WS2812_DI_PIN);//ws2812io初始化拉低避免亮绿灯
-#endif
-
     // PWM Configuration
     //#pragma GCC diagnostic ignored "-Woverride-init"  // Turn off override-init warning for this struct. We use the overriding ability to set a "default" channel config
     static const PWMConfig ws2812_pwm_config = {
@@ -334,45 +331,33 @@ void ws2812_init(void) {
                 [WS2812_PWM_CHANNEL - 1] = {.mode = WS2812_PWM_OUTPUT_MODE, .callback = NULL}, // Turn on the channel we care about
             },
         .cr2  = 0,
-#if defined(WS2812_PWM_DRIVER_USE_DMA_CC)
-        .dier = ((0x100 << WS2812_PWM_CHANNEL) | TIM_DIER_TDE),
-#else
         .dier = TIM_DIER_UDE, // DMA on update event for next period
-#endif
     };
     //#pragma GCC diagnostic pop  // Restore command-line warning options
 
     // Configure DMA
     // dmaInit(); // Joe added this
 #if defined(WB32F3G71xx) || defined(WB32FQ95xx)
-    dmaStreamAlloc(WS2812_DMA_STREAM - WB32_DMA_STREAM(0), 10, NULL, NULL);
-    dmaStreamSetSource(WS2812_DMA_STREAM, ws2812_frame_buffer);
-    dmaStreamSetDestination(WS2812_DMA_STREAM, &(WS2812_PWM_DRIVER.tim->CCR[WS2812_PWM_CHANNEL - 1])); // Ziel ist der An-Zeit im Cap-Comp-Register
-    dmaStreamSetMode(WS2812_DMA_STREAM, WB32_DMA_CHCFG_HWHIF(WS2812_DMA_CHANNEL) | WB32_DMA_CHCFG_DIR_M2P | WB32_DMA_CHCFG_PSIZE_WORD | WB32_DMA_CHCFG_MSIZE_WORD | WB32_DMA_CHCFG_MINC | WB32_DMA_CHCFG_CIRC | WB32_DMA_CHCFG_TCIE | WB32_DMA_CHCFG_PL(3));
+    dmaStreamAlloc(WS2812_PWM_DMA_STREAM - WB32_DMA_STREAM(0), 10, NULL, NULL);
+    dmaStreamSetSource(WS2812_PWM_DMA_STREAM, ws2812_frame_buffer);
+    dmaStreamSetDestination(WS2812_PWM_DMA_STREAM, &(WS2812_PWM_DRIVER.tim->CCR[WS2812_PWM_CHANNEL - 1])); // Ziel ist der An-Zeit im Cap-Comp-Register
+    dmaStreamSetMode(WS2812_PWM_DMA_STREAM, WB32_DMA_CHCFG_HWHIF(WS2812_PWM_DMA_CHANNEL) | WB32_DMA_CHCFG_DIR_M2P | WB32_DMA_CHCFG_PSIZE_WORD | WB32_DMA_CHCFG_MSIZE_WORD | WB32_DMA_CHCFG_MINC | WB32_DMA_CHCFG_CIRC | WB32_DMA_CHCFG_TCIE | WB32_DMA_CHCFG_PL(3));
 #else
-    dmaStreamAlloc(WS2812_DMA_STREAM - STM32_DMA_STREAM(0), 10, NULL, NULL);
-    dmaStreamSetPeripheral(WS2812_DMA_STREAM, &(WS2812_PWM_DRIVER.tim->CCR[WS2812_PWM_CHANNEL - 1])); // Ziel ist der An-Zeit im Cap-Comp-Register
-    dmaStreamSetMemory0(WS2812_DMA_STREAM, ws2812_frame_buffer);
-    dmaStreamSetMode(WS2812_DMA_STREAM, STM32_DMA_CR_CHSEL(WS2812_DMA_CHANNEL) | STM32_DMA_CR_DIR_M2P | WS2812_DMA_PERIPHERAL_WIDTH | WS2812_DMA_MEMORY_WIDTH | STM32_DMA_CR_MINC | STM32_DMA_CR_CIRC | STM32_DMA_CR_PL(3));
+    dmaStreamAlloc(WS2812_PWM_DMA_STREAM - STM32_DMA_STREAM(0), 10, NULL, NULL);
+    dmaStreamSetPeripheral(WS2812_PWM_DMA_STREAM, &(WS2812_PWM_DRIVER.tim->CCR[WS2812_PWM_CHANNEL - 1])); // Ziel ist der An-Zeit im Cap-Comp-Register
+    dmaStreamSetMemory0(WS2812_PWM_DMA_STREAM, ws2812_frame_buffer);
+    dmaStreamSetMode(WS2812_PWM_DMA_STREAM, STM32_DMA_CR_CHSEL(WS2812_PWM_DMA_CHANNEL) | STM32_DMA_CR_DIR_M2P | WS2812_PWM_DMA_PERIPHERAL_WIDTH | WS2812_PWM_DMA_MEMORY_WIDTH | STM32_DMA_CR_MINC | STM32_DMA_CR_CIRC | STM32_DMA_CR_PL(3));
 #endif
-    dmaStreamSetTransactionSize(WS2812_DMA_STREAM, WS2812_BIT_N);
+    dmaStreamSetTransactionSize(WS2812_PWM_DMA_STREAM, WS2812_BIT_N);
     // M2P: Memory 2 Periph; PL: Priority Level
 
 #if (STM32_DMA_SUPPORTS_DMAMUX == TRUE)
     // If the MCU has a DMAMUX we need to assign the correct resource
-    dmaSetRequestSource(WS2812_DMA_STREAM, WS2812_DMAMUX_ID);
+    dmaSetRequestSource(WS2812_PWM_DMA_STREAM, WS2812_PWM_DMAMUX_ID);
 #endif
-#if (AT32_DMA_SUPPORTS_DMAMUX == TRUE) 
-#    if defined(AT32_USE_DMA_V1)
-#        if (AT32_DMA_USE_DMAMUX == TRUE)
-    dmaSetRequestSource(WS2812_DMA_STREAM, WS2812_DMAMUX_CHANNEL, WS2812_DMAMUX_ID);
-#        endif
-#    else
-    dmaSetRequestSource(WS2812_DMA_STREAM, WS2812_DMAMUX_ID);
-#    endif
-#endif
+
     // Start DMA
-    dmaStreamEnable(WS2812_DMA_STREAM);
+    dmaStreamEnable(WS2812_PWM_DMA_STREAM);
 
     // Configure PWM
     // NOTE: It's required that preload be enabled on the timer channel CCR register. This is currently enabled in the
@@ -396,7 +381,7 @@ void ws2812_write_led_rgbw(uint16_t led_number, uint8_t r, uint8_t g, uint8_t b,
         ws2812_frame_buffer[WS2812_RED_BIT(led_number, bit)]   = ((r >> bit) & 0x01) ? WS2812_DUTYCYCLE_1 : WS2812_DUTYCYCLE_0;
         ws2812_frame_buffer[WS2812_GREEN_BIT(led_number, bit)] = ((g >> bit) & 0x01) ? WS2812_DUTYCYCLE_1 : WS2812_DUTYCYCLE_0;
         ws2812_frame_buffer[WS2812_BLUE_BIT(led_number, bit)]  = ((b >> bit) & 0x01) ? WS2812_DUTYCYCLE_1 : WS2812_DUTYCYCLE_0;
-#ifdef RGBW
+#ifdef WS2812_RGBW
         ws2812_frame_buffer[WS2812_WHITE_BIT(led_number, bit)] = ((w >> bit) & 0x01) ? WS2812_DUTYCYCLE_1 : WS2812_DUTYCYCLE_0;
 #endif
     }
@@ -404,14 +389,8 @@ void ws2812_write_led_rgbw(uint16_t led_number, uint8_t r, uint8_t g, uint8_t b,
 
 // Setleds for standard RGB
 void ws2812_setleds(rgb_led_t* ledarray, uint16_t leds) {
-    static bool s_init = false;
-    if (!s_init) {
-        ws2812_init();
-        s_init = true;
-    }
-
     for (uint16_t i = 0; i < leds; i++) {
-#ifdef RGBW
+#ifdef WS2812_RGBW
         ws2812_write_led_rgbw(i, ledarray[i].r, ledarray[i].g, ledarray[i].b, ledarray[i].w);
 #else
         ws2812_write_led(i, ledarray[i].r, ledarray[i].g, ledarray[i].b);

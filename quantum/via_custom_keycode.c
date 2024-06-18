@@ -33,44 +33,6 @@ bool process_via_custom_keycode(uint16_t keycode, keyrecord_t *record) {
             return false;
         }
 #endif
-#ifdef RADIAL_CONTROLLER_ENABLE
-        case RD_BUT: {
-            if (record->event.pressed) {
-                radial_controller_button_update(true);
-            } else {
-                radial_controller_button_update(false);
-            }
-            return false;
-        }
-        case RD_L: {
-            if (record->event.pressed) {
-                radial_controller_dial_update(false, false);
-            }
-            return false;
-        }
-        case RD_R: {
-            if (record->event.pressed) {
-                radial_controller_dial_update(true, false);
-            }
-            return false;
-        }
-        case RD_LC: {
-            if (record->event.pressed) {
-                radial_controller_dial_update(false, true);
-            } else {
-                radial_controller_dial_finished();
-            }
-            return false;
-        }
-        case RD_RC: {
-            if (record->event.pressed) {
-                radial_controller_dial_update(true, true);
-            } else {
-                radial_controller_dial_finished();
-            }
-            return false;
-        }
-#endif
 
 #ifdef RGB_MATRIX_CONTROL_ENABLE
 #ifndef RGB_MATRIX_CONTROL_SWITCH_ENABLE
