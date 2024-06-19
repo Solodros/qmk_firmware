@@ -94,16 +94,20 @@ uint16_t keycode_at_dip_switch_map_location(uint8_t switch_idx, bool on) {
 
 #if defined(COMBO_ENABLE)
 
+#if !defined(DYNAMIC_COMBOS_ENABLE)
 uint16_t combo_count_raw(void) {
     return sizeof(key_combos) / sizeof(combo_t);
-}
-__attribute__((weak)) uint16_t combo_count(void) {
-    return combo_count_raw();
 }
 
 combo_t* combo_get_raw(uint16_t combo_idx) {
     return &key_combos[combo_idx];
 }
+#endif
+
+__attribute__((weak)) uint16_t combo_count(void) {
+    return combo_count_raw();
+}
+
 __attribute__((weak)) combo_t* combo_get(uint16_t combo_idx) {
     return combo_get_raw(combo_idx);
 }

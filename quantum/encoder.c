@@ -5,9 +5,10 @@
 #include "action.h"
 #include "encoder.h"
 #include "wait.h"
+#include "magic_settings.h"
 
 #ifndef ENCODER_MAP_KEY_DELAY
-#    define ENCODER_MAP_KEY_DELAY TAP_CODE_DELAY
+#    define ENCODER_MAP_KEY_DELAY CUSTOM_TAP_CODE_DELAY
 #endif
 
 __attribute__((weak)) bool should_process_encoder(void) {
@@ -36,14 +37,14 @@ static bool encoder_handle_queue(void) {
 
         // The delays below cater for Windows and its wonderful requirements.
         action_exec(clockwise ? MAKE_ENCODER_CW_EVENT(index, true) : MAKE_ENCODER_CCW_EVENT(index, true));
-#    if ENCODER_MAP_KEY_DELAY > 0
+    if (ENCODER_MAP_KEY_DELAY > 0) {
         wait_ms(ENCODER_MAP_KEY_DELAY);
-#    endif // ENCODER_MAP_KEY_DELAY > 0
+    }
 
         action_exec(clockwise ? MAKE_ENCODER_CW_EVENT(index, false) : MAKE_ENCODER_CCW_EVENT(index, false));
-#    if ENCODER_MAP_KEY_DELAY > 0
+    if (ENCODER_MAP_KEY_DELAY > 0) {
         wait_ms(ENCODER_MAP_KEY_DELAY);
-#    endif // ENCODER_MAP_KEY_DELAY > 0
+    }
 
 #else // ENCODER_MAP_ENABLE
 

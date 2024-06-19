@@ -24,6 +24,8 @@
 #include "rgb_matrix_drivers.h"
 #include "color.h"
 #include "keyboard.h"
+#include "rgb_matrix_legacy_enables.h"
+
 
 #ifndef RGB_MATRIX_TIMEOUT
 #    define RGB_MATRIX_TIMEOUT 0

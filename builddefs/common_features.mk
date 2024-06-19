@@ -927,6 +927,92 @@ ifeq ($(strip $(DIP_SWITCH_ENABLE)), yes)
     endif
 endif
 
+ifeq ($(strip $(AUTO_SWITCH_LAYERS_ENABLE)), yes)
+    OS_DETECTION_ENABLE := yes
+    EECONFIG_EXTENDED_FOR_ZQ := yes
+    SRC += $(QUANTUM_DIR)/auto_switch_layers.c
+	OPT_DEFS += -DAUTO_SWITCH_LAYERS_ENABLE
+endif
+
+ifeq ($(strip $(RGB_MATRIX_CONTROL_ENABLE)), yes)
+	ifeq ($(strip $(RGB_MATRIX_ENABLE)), no)
+        $(error RGB_MATRIX_CONTROL_ENABLE requires RGB_MATRIX_ENABLE, either disable RGB_MATRIX_CONTROL explicitly or enable RGB_MATRIX)
+    endif
+    EECONFIG_EXTENDED_FOR_ZQ := yes
+    SRC += $(QUANTUM_DIR)/rgb_matrix/rgb_matrix_control.c
+	OPT_DEFS += -DRGB_MATRIX_CONTROL_ENABLE
+endif
+
+ifeq ($(strip $(UNDERGLOW_RGB_MATRIX_ENABLE)), yes)
+	ifeq ($(strip $(RGB_MATRIX_ENABLE)), no)
+        $(error UNDERGLOW_RGB_MATRIX_ENABLE requires RGB_MATRIX_ENABLE, either disable UNDERGLOW_RGB_MATRIX explicitly or enable RGB_MATRIX)
+    endif
+    EECONFIG_EXTENDED_FOR_ZQ := yes
+    SRC += $(QUANTUM_DIR)/rgb_matrix/underglow_rgb_matrix.c
+    OPT_DEFS += -DUNDERGLOW_RGB_MATRIX_ENABLE
+endif
+
+VALID_RGB_INDICATORS_TYPES := solid dynamic
+
+RGB_INDICATORS ?= solid
+ifeq ($(strip $(RGB_INDICATORS_ENABLE)), yes)
+	ifeq ($(strip $(RGB_MATRIX_ENABLE)), no)
+        $(error RGB_INDICATORS_ENABLE requires RGB_MATRIX_ENABLE, either disable RGB_INDICATORS explicitly or enable RGB_MATRIX)
+    endif
+	ifeq ($(filter $(RGB_INDICATORS),$(VALID_RGB_INDICATORS_TYPES)),)
+        $(error RGB_INDICATORS="$(RGB_INDICATORS)" is not a valid driver)
+    endif
+	ifeq ($(strip $(RGB_INDICATORS)), solid)
+    	SRC += $(QUANTUM_DIR)/rgb_matrix/rgb_indicators.c
+    else ifeq ($(strip $(RGB_INDICATORS)), dynamic)
+		SRC += $(QUANTUM_DIR)/rgb_matrix/dynamic_rgb_indicators.c
+		OPT_DEFS += -DDYNAMIC_RGB_INDICATORS_ENABLE
+    endif
+    EECONFIG_EXTENDED_FOR_ZQ := yes
+	OPT_DEFS += -DRGB_INDICATORS_ENABLE
+endif
+
+ifeq ($(strip $(VIA_CUSTOM_KEYCODE_ENABLE)), yes)
+	ifeq ($(strip $(VIA_ENABLE)), no)
+        $(error VIA_CUSTOM_KEYCODE_ENABLE requires VIA_ENABLE, either disable VIA_CUSTOM_KEYCODE explicitly or enable VIA)
+    endif
+    SRC += $(QUANTUM_DIR)/via_custom_keycode.c
+	OPT_DEFS += -DVIA_CUSTOM_KEYCODE_ENABLE
+endif
+
+ifeq ($(strip $(VIA_CUSTOM_CONTROL_ENABLE)), yes)
+	ifeq ($(strip $(VIA_ENABLE)), no)
+        $(error VIA_CUSTOM_CONTROL_ENABLE requires VIA_ENABLE, either disable VIA_CUSTOM_CONTROL explicitly or enable VIA)
+    endif
+    SRC += $(QUANTUM_DIR)/via_custom_control.c
+	OPT_DEFS += -DVIA_CUSTOM_CONTROL_ENABLE
+endif
+
+ifeq ($(strip $(EECONFIG_EXTENDED_FOR_ZQ)), yes)
+    OPT_DEFS += -DEECONFIG_EXTENDED_FOR_ZHAQIAN
+endif
+
+ifeq ($(strip $(MAGIC_SETTINGS_ENABLE)), yes)
+    SRC += $(QUANTUM_DIR)/magic_settings.c
+	OPT_DEFS += -DMAGIC_SETTINGS_ENABLE
+endif
+
+ifeq ($(strip $(DYNAMIC_TAP_DANCE_ENABLE)), yes)
+	ifeq ($(strip $(TAP_DANCE_ENABLE)), no)
+        $(error DYNAMIC_TAP_DANCE_ENABLE requires TAP_DANCE_ENABLE, either disable DYNAMIC_TAP_DANCE explicitly or enable TAP_DANCE)
+    endif
+    SRC += $(QUANTUM_DIR)/dynamic_tap_dance.c
+	OPT_DEFS += -DDYNAMIC_TAP_DANCE_ENABLE
+endif
+
+ifeq ($(strip $(DYNAMIC_COMBOS_ENABLE)), yes)
+	ifeq ($(strip $(COMBO_ENABLE)), no)
+        $(error DYNAMIC_COMBOS_ENABLE requires COMBO_ENABLE, either disable DYNAMIC_COMBOS explicitly or enable COMBO)
+    endif
+    SRC += $(QUANTUM_DIR)/dynamic_combos.c
+	OPT_DEFS += -DDYNAMIC_COMBOS_ENABLE
+endif
+
 VALID_WS2812_DRIVER_TYPES := bitbang custom i2c pwm spi vendor
 
 WS2812_DRIVER ?= bitbang

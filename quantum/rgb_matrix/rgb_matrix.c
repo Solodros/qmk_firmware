@@ -29,6 +29,23 @@
 
 #include <lib/lib8tion/lib8tion.h>
 
+
+#ifdef RGB_MATRIX_CONTROL_ENABLE
+#    include "rgb_matrix_control.h"
+#endif
+
+#ifdef UNDERGLOW_RGB_MATRIX_ENABLE
+#    include "underglow_rgb_matrix.h"
+#endif
+
+#ifdef RGB_INDICATORS_ENABLE
+#ifdef DYNAMIC_RGB_INDICATORS_ENABLE
+#   include "dynamic_rgb_indicators.h"
+#else
+#   include "rgb_indicators.h"
+#endif
+#endif
+
 #ifndef RGB_MATRIX_CENTER
 const led_point_t k_rgb_matrix_center = {112, 32};
 #else
@@ -231,10 +248,22 @@ void rgb_matrix_test(void) {
 }
 
 static bool rgb_matrix_none(effect_params_t *params) {
+#ifdef RGB_MATRIX_CONTROL_ENABLE
+    static uint8_t changed = 0;
+    uint8_t override = indicator_rgb_is_override();
+    changed ^= override;
+    if (changed == 1 && override == 0) {
+        rgb_matrix_set_color_all(0, 0, 0);
+        rgb_matrix_update_pwm_buffers();
+    }
+    if (!params->init && override == 0) {
+        return false;
+    }
+#else
     if (!params->init) {
         return false;
     }
-
+#endif
     rgb_matrix_set_color_all(0, 0, 0);
     return false;
 }
@@ -331,7 +360,11 @@ static void rgb_task_render(uint8_t effect) {
     // next task
     if (!rendering) {
         rgb_task_state = FLUSHING;
+#ifdef RGB_MATRIX_CONTROL_ENABLE
+        if (!rgb_effect_params.init && effect == RGB_MATRIX_NONE && indicator_rgb_is_override() == 0) {
+#else
         if (!rgb_effect_params.init && effect == RGB_MATRIX_NONE) {
+#endif
             // We only need to flush once if we are RGB_MATRIX_NONE
             rgb_task_state = SYNCING;
         }
@@ -370,11 +403,31 @@ void rgb_matrix_task(void) {
         case RENDERING:
             rgb_task_render(effect);
             if (effect) {
-                if (rgb_task_state == FLUSHING) { // ensure we only draw basic indicators once rendering is finished
-                    rgb_matrix_indicators();
+#ifdef UNDERGLOW_RGB_MATRIX_ENABLE
+                underglow_rgb_matrix_task();
+#endif
+#ifdef RGB_MATRIX_CONTROL_ENABLE
+                if (indicator_rgb_is_override() == 1) 
+                {
+                    rgb_matrix_control_task();
+                    RGB_MATRIX_INDICATORS_TASK(rgb_effect_params);
                 }
-                rgb_matrix_indicators_advanced(&rgb_effect_params);
+                else
+                {
+                    RGB_MATRIX_INDICATORS_TASK(rgb_effect_params);
+                    rgb_matrix_control_task();
+                }
+#else
+                RGB_MATRIX_INDICATORS_TASK(rgb_effect_params);
+#endif
+            } 
+#ifdef RGB_MATRIX_CONTROL_ENABLE
+            else {
+                if (indicator_rgb_is_override() == 1) {
+                    RGB_MATRIX_INDICATORS_TASK(rgb_effect_params);
+                }
             }
+#endif
             break;
         case FLUSHING:
             rgb_task_flush(effect);
@@ -459,6 +512,16 @@ void rgb_matrix_init(void) {
         last_hit_buffer.tick[i] = UINT16_MAX;
     }
 #endif // RGB_MATRIX_KEYREACTIVE_ENABLED
+
+#if defined(ENABLE_RGB_MATRIX_CYCLE_ALTER) || defined (ENABLE_RGB_MATRIX_RAINBOW_ALTER)
+    ALTER_init();
+#endif
+
+//    if (!eeconfig_is_enabled()) {
+//        dprintf("rgb_matrix_init_drivers eeconfig is not enabled.\n");
+//        eeconfig_init();
+//        eeconfig_update_rgb_matrix_default();
+//    }https://github.com/qmk/qmk_firmware/commit/dc5befd13906f193f6ee8c2f9ace01100a167b20#diff-84fd35110156133ab82c877ed6c101b5608a69d745df9f18e819af4c1de74fbd
 
     eeconfig_init_rgb_matrix();
     if (!rgb_matrix_config.mode) {
@@ -548,7 +611,9 @@ uint8_t rgb_matrix_get_mode(void) {
 void rgb_matrix_step_helper(bool write_to_eeprom) {
     uint8_t mode = rgb_matrix_config.mode + 1;
     rgb_matrix_mode_eeprom_helper((mode < RGB_MATRIX_EFFECT_MAX) ? mode : 1, write_to_eeprom);
+
 }
+
 void rgb_matrix_step_noeeprom(void) {
     rgb_matrix_step_helper(false);
 }
@@ -559,7 +624,11 @@ void rgb_matrix_step(void) {
 void rgb_matrix_step_reverse_helper(bool write_to_eeprom) {
     uint8_t mode = rgb_matrix_config.mode - 1;
     rgb_matrix_mode_eeprom_helper((mode < 1) ? RGB_MATRIX_EFFECT_MAX - 1 : mode, write_to_eeprom);
+
 }
+
+
+
 void rgb_matrix_step_reverse_noeeprom(void) {
     rgb_matrix_step_reverse_helper(false);
 }

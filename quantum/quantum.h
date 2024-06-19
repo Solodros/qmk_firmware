@@ -240,6 +240,41 @@ extern layer_state_t layer_state;
 #    include "os_detection.h"
 #endif
 
+#ifdef RGB_MATRIX_CONTROL_ENABLE
+#    include "rgb_matrix_control.h"
+#endif
+
+#ifdef UNDERGLOW_RGB_MATRIX_ENABLE
+#    include "underglow_rgb_matrix.h"
+#endif
+
+#ifdef RGB_INDICATORS_ENABLE
+#ifdef DYNAMIC_RGB_INDICATORS_ENABLE
+#   include "dynamic_rgb_indicators.h"
+#else
+#   include "rgb_indicators.h"
+#endif
+#endif
+
+#ifdef VIA_CUSTOM_KEYCODE_ENABLE
+#   include "via_custom_keycode.h"
+#endif
+
+#ifdef VIA_CUSTOM_CONTROL_ENABLE
+#   include "via_custom_control.h"
+#endif
+
+#   include "magic_settings.h"
+#   include "auto_switch_layers.h"
+
+#ifdef DYNAMIC_TAP_DANCE_ENABLE
+#   include "dynamic_tap_dance.h"
+#endif
+
+#ifdef DYNAMIC_COMBOS_ENABLE
+#   include "dynamic_combos.h"
+#endif
+
 void set_single_persistent_default_layer(uint8_t default_layer);
 
 #define IS_LAYER_ON(layer) layer_state_is(layer)
