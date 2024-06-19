@@ -68,8 +68,8 @@ void auto_switch_layers_init(void) {
 }
 
 void auto_switch_layers_update(void) {
-    os_variant_t os = detected_host_os();
-    switch (os) {
+    os_variant_t detected_os = detected_host_os();
+    switch (detected_os) {
         case OS_WINDOWS: {
             default_layer_set(0x01<<system_layers.windows_layer);
             if (CUSTOM_AUTO_SWITCH_LAYERS_UPDATE_FN_KEYCODE) {
@@ -91,11 +91,11 @@ void auto_switch_layers_update(void) {
     }
 }
 
-bool os_detection_update(os_variant_t os) {
+bool os_detection_update(os_variant_t detected_os) {
     if (CUSTOM_AUTO_SWITCH_LAYERS_ENABLE) {
         auto_switch_layers_update();
     }
-    return os_detection_update_kb(os);
+    return process_detected_host_os_kb(detected_os);
 }
 
 void auto_switch_layers_set_config(uint8_t index, uint8_t value, bool update) {
