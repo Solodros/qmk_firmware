@@ -533,6 +533,9 @@ void keyboard_init(void) {
 #ifdef BLUETOOTH_ENABLE
     bluetooth_init();
 #endif
+#ifdef HAPTIC_ENABLE
+    haptic_init();
+#endif
 #ifdef JOYSTICK_TRIGGER_ENABLE
     joystick_trigger_init();
 #endif
