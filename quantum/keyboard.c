@@ -530,6 +530,9 @@ void keyboard_init(void) {
 #ifdef BLUETOOTH_ENABLE
     bluetooth_init();
 #endif
+#ifdef HAPTIC_ENABLE
+    haptic_init();
+#endif
 
 #if defined(DEBUG_MATRIX_SCAN_RATE) && defined(CONSOLE_ENABLE)
     debug_enable = true;
