@@ -146,7 +146,7 @@ void process_wlength(const uint16_t w_length) {
     // only replace the guessed value if not unsure
     if (guessed != OS_UNSURE) {
         detected_os = guessed;
-        os_detection_update(guessed);
+        process_detected_host_os(guessed);
 
     }
 
