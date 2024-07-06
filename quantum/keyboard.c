@@ -140,9 +140,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef OS_DETECTION_ENABLE
 #    include "os_detection.h"
 #endif
-#ifdef JOYSTICK_TRIGGER_ENABLE
-#    include "joystick_trigger.h"
-#endif
 
 #ifdef RGB_MATRIX_CONTROL_ENABLE
 #    include "rgb_matrix_control.h"
@@ -429,30 +426,6 @@ void quantum_init(void) {
 
     /* Also initialize layer state to trigger callback functions for layer_state */
     layer_state_set_kb((layer_state_t)layer_state);
-#ifdef HAPTIC_ENABLE
-    haptic_init();
-#endif
-#ifdef RGB_MATRIX_CONTROL_ENABLE
-    rgb_matrix_control_init();
-#endif
-#ifdef UNDERGLOW_RGB_MATRIX_ENABLE
-    underglow_rgb_matrix_init();
-#endif
-#ifdef RGB_INDICATORS_ENABLE
-    rgb_indicators_init();
-#endif
-#ifdef MAGIC_SETTINGS_ENABLE
-    magic_settings_init();
-#endif
-#ifdef AUTO_SWITCH_LAYERS_ENABLE
-    auto_switch_layers_init();
-#endif
-#ifdef DYNAMIC_TAP_DANCE_ENABLE
-    dynamic_tap_dance_init();
-#endif
-#ifdef DYNAMIC_COMBOS_ENABLE
-    dynamic_combos_init();
-#endif
 }
 
 /** \brief keyboard_init
@@ -488,6 +461,27 @@ void keyboard_init(void) {
 #endif
 #if defined(UNICODE_COMMON_ENABLE)
     unicode_input_mode_init();
+#endif
+#ifdef RGB_MATRIX_CONTROL_ENABLE
+    rgb_matrix_control_init();
+#endif
+#ifdef UNDERGLOW_RGB_MATRIX_ENABLE
+    underglow_rgb_matrix_init();
+#endif
+#ifdef RGB_INDICATORS_ENABLE
+    rgb_indicators_init();
+#endif
+#ifdef MAGIC_SETTINGS_ENABLE
+    magic_settings_init();
+#endif
+#ifdef AUTO_SWITCH_LAYERS_ENABLE
+    auto_switch_layers_init();
+#endif
+#ifdef DYNAMIC_TAP_DANCE_ENABLE
+    dynamic_tap_dance_init();
+#endif
+#ifdef DYNAMIC_COMBOS_ENABLE
+    dynamic_combos_init();
 #endif
 #if defined(CRC_ENABLE)
     crc_init();
@@ -536,8 +530,8 @@ void keyboard_init(void) {
 #ifdef BLUETOOTH_ENABLE
     bluetooth_init();
 #endif
-#ifdef JOYSTICK_TRIGGER_ENABLE
-    joystick_trigger_init();
+#ifdef HAPTIC_ENABLE
+    haptic_init();
 #endif
 
 #if defined(DEBUG_MATRIX_SCAN_RATE) && defined(CONSOLE_ENABLE)
@@ -554,10 +548,10 @@ void keyboard_init(void) {
  */
 void switch_events(uint8_t row, uint8_t col, bool pressed) {
 #if defined(LED_MATRIX_ENABLE)
-    process_led_matrix(row, col, pressed);
+    led_matrix_handle_key_event(row, col, pressed);
 #endif
 #if defined(RGB_MATRIX_ENABLE)
-    process_rgb_matrix(row, col, pressed);
+    rgb_matrix_handle_key_event(row, col, pressed);
 #endif
 }
 
@@ -710,9 +704,6 @@ void quantum_task(void) {
     secure_task();
 #endif
 
-#ifdef RADIAL_CONTROLLER_ENABLE
-    radial_controller_task();
-#endif
 }
 
 /** \brief Main task that is repeatedly called as fast as possible. */
@@ -795,10 +786,6 @@ void keyboard_task(void) {
 
 #ifdef BLUETOOTH_ENABLE
     bluetooth_task();
-#endif
-
-#ifdef JOYSTICK_TRIGGER_ENABLE
-    joystick_trigger_task();
 #endif
 
 #ifdef HAPTIC_ENABLE

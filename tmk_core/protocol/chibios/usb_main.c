@@ -493,12 +493,6 @@ void send_extra(report_extra_t *report) {
 #endif
 }
 
-void send_radial(report_radial_t *report) {
-#ifdef RADIAL_CONTROLLER_ENABLE
-    send_report(USB_ENDPOINT_IN_SHARED, report, sizeof(report_extra_t));
-#endif
-} 
-
 void send_programmable_button(report_programmable_button_t *report) {
 #ifdef PROGRAMMABLE_BUTTON_ENABLE
     send_report(USB_ENDPOINT_IN_SHARED, report, sizeof(report_programmable_button_t));
@@ -591,15 +585,6 @@ bool recv_midi_packet(MIDI_EventPacket_t *const event) {
     return receive_report(USB_ENDPOINT_OUT_MIDI, (uint8_t *)event, sizeof(MIDI_EventPacket_t));
 }
 
-void midi_ep_task(void) {
-    uint8_t buffer[MIDI_STREAM_EPSIZE];
-    while (receive_report(USB_ENDPOINT_OUT_MIDI, buffer, sizeof(buffer))) {
-        MIDI_EventPacket_t event;
-        // TODO: this seems totally wrong? The midi task will never see any
-        // packets if we consume them here
-        recv_midi_packet(&event);
-    }
-}
 #endif
 
 #ifdef VIRTSER_ENABLE

@@ -240,10 +240,6 @@ extern layer_state_t layer_state;
 #    include "os_detection.h"
 #endif
 
-#ifdef JOYSTICK_TRIGGER_ENABLE
-#    include "joystick_trigger.h"
-#endif
-
 #ifdef RGB_MATRIX_CONTROL_ENABLE
 #    include "rgb_matrix_control.h"
 #endif
@@ -266,10 +262,6 @@ extern layer_state_t layer_state;
 
 #ifdef SIGNALRGB_ENABLE
 #    include "signalrgb.h"
-#endif
-
-#ifdef RADIAL_CONTROLLER_ENABLE
-#   include "radial_controller.h"
 #endif
 
 #ifdef VIA_CUSTOM_KEYCODE_ENABLE

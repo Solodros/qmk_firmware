@@ -166,3 +166,7 @@ void protocol_keyboard_task(void) {
 void protocol_post_task(void) {
     // do nothing
 }
+
+void protocol_post_task(void) {
+    // do nothing
+}

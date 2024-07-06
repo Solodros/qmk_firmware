@@ -67,6 +67,11 @@
 #    include "raw_hid.h"
 #endif
 
+#ifdef WAIT_FOR_USB
+// TODO: Remove backwards compatibility with old define
+#    define USB_WAIT_FOR_ENUMERATION
+#endif
+
 uint8_t keyboard_idle = 0;
 /* 0: Boot Protocol, 1: Report Protocol(default) */
 uint8_t        keyboard_protocol  = 1;
@@ -614,12 +619,6 @@ static void send_extra(report_extra_t *report) {
 #endif
 }
 
-void send_radial(report_radial_t *report) {
-#ifdef RADIAL_CONTROLLER_ENABLE
-    send_report(SHARED_IN_EPNUM, report, sizeof(report_radial_t));
-#endif
-}
-
 void send_joystick(report_joystick_t *report) {
 #ifdef JOYSTICK_ENABLE
     send_report(JOYSTICK_IN_EPNUM, report, sizeof(report_joystick_t));
@@ -857,7 +856,7 @@ void protocol_pre_init(void) {
 
     /* wait for USB startup & debug output */
 
-#ifdef WAIT_FOR_USB
+#ifdef USB_WAIT_FOR_ENUMERATION
     while (USB_DeviceState != DEVICE_STATE_Configured) {
 #    if defined(INTERRUPT_CONTROL_ENDPOINT)
         ;

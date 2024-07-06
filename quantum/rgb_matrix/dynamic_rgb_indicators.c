@@ -59,7 +59,7 @@
 #endif
 
 #ifndef DEFAULT_NUM_LOCK_HSV
-#define DEFAULT_NUM_LOCK_HSV {240, 255, 200}
+#define DEFAULT_NUM_LOCK_HSV {240, 255, DYNAMIC_RGB_INDICATORS_DEFAULT_VAL}
 #endif
 
 #ifdef DEFAULT_CAPS_LOCK_ENABLE 
@@ -101,7 +101,7 @@
 #endif
 
 #ifndef DEFAULT_CAPS_LOCK_HSV
-#define DEFAULT_CAPS_LOCK_HSV {0, 255, 200}
+#define DEFAULT_CAPS_LOCK_HSV {0, 255, DYNAMIC_RGB_INDICATORS_DEFAULT_VAL}
 #endif
 
 #ifdef DEFAULT_SCROLL_LOCK_ENABLE 
@@ -143,7 +143,7 @@
 #endif
 
 #ifndef DEFAULT_SCROLL_LOCK_HSV
-#define DEFAULT_SCROLL_LOCK_HSV {120, 255, 200}
+#define DEFAULT_SCROLL_LOCK_HSV {120, 255, DYNAMIC_RGB_INDICATORS_DEFAULT_VAL}
 #endif
 
 
@@ -464,19 +464,22 @@ void rgb_indicators_set_hsv(uint8_t indicator, uint8_t hue, uint8_t sat, uint8_t
         case 0: {
             rgb_indicators_config.num_lock_config.hsv.h = hue;
             rgb_indicators_config.num_lock_config.hsv.s = sat;
-            rgb_indicators_config.num_lock_config.hsv.v = val;
+//            rgb_indicators_config.num_lock_config.hsv.v = val;
+          rgb_indicators_config.num_lock_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val; 
             break;
         }
         case 1: {
             rgb_indicators_config.caps_lock_config.hsv.h = hue;
             rgb_indicators_config.caps_lock_config.hsv.s = sat;
-            rgb_indicators_config.caps_lock_config.hsv.v = val;
+//            rgb_indicators_config.caps_lock_config.hsv.v = val;
+          rgb_indicators_config.caps_lock_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val; 
             break;
         }
         case 2: {
             rgb_indicators_config.scroll_lock_config.hsv.h = hue;
             rgb_indicators_config.scroll_lock_config.hsv.s = sat;
-            rgb_indicators_config.scroll_lock_config.hsv.v = val;
+ //           rgb_indicators_config.scroll_lock_config.hsv.v = val;
+           rgb_indicators_config.scroll_lock_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val; 
             break;
         }
         default: break;
@@ -488,15 +491,15 @@ void rgb_indicators_set_hsv(uint8_t indicator, uint8_t hue, uint8_t sat, uint8_t
 void rgb_indicators_set_val(uint8_t indicator, uint8_t val, bool update) {
     switch (indicator) {
         case 0: {
-            rgb_indicators_config.num_lock_config.hsv.v = val;
+            rgb_indicators_config.num_lock_config.hsv.v =  (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val;
             break;
         }
         case 1: {
-            rgb_indicators_config.caps_lock_config.hsv.v = val;
+            rgb_indicators_config.caps_lock_config.hsv.v =  (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val;
             break;
         }
         case 2: {
-            rgb_indicators_config.scroll_lock_config.hsv.v = val;
+            rgb_indicators_config.scroll_lock_config.hsv.v =  (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val;
             break;
         }
         default: break;

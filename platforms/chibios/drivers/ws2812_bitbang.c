@@ -11,7 +11,7 @@
 /* Adapted from https://github.com/bigjosh/SimpleNeoPixelDemo/ */
 
 #ifndef WS2812_BITBANG_NOP_FUDGE
-#    if defined(STM32F0XX) || defined(STM32F1XX) || defined(GD32VF103) || defined(STM32F3XX) || defined(STM32F4XX) || defined(STM32L0XX) || defined(WB32F3G71xx) || defined(WB32FQ95xx) || defined(AIR32F10x) || defined(AT32F415xx) || defined(AT32F413xx) || defined(AT32F403_7xx) || defined(AT32F402_5xx) || defined(AT32F435_7xx) || defined(AT32F423xx)
+#    if defined(STM32F0XX) || defined(STM32F1XX) || defined(GD32VF103) || defined(STM32F3XX) || defined(STM32F4XX) || defined(STM32L0XX) || defined(WB32F3G71xx) || defined(WB32FQ95xx)
 #        define WS2812_BITBANG_NOP_FUDGE 0.4
 #    else
 #        if defined(RP2040)
@@ -82,12 +82,6 @@ void ws2812_init(void) {
 
 // Setleds for standard RGB
 void ws2812_setleds(rgb_led_t *ledarray, uint16_t leds) {
-    static bool s_init = false;
-    if (!s_init) {
-        ws2812_init();
-        s_init = true;
-    }
-
     // this code is very time dependent, so we need to disable interrupts
     chSysLock();
 
@@ -107,7 +101,7 @@ void ws2812_setleds(rgb_led_t *ledarray, uint16_t leds) {
         sendByte(ledarray[i].r);
 #endif
 
-#ifdef RGBW
+#ifdef WS2812_RGBW
         sendByte(ledarray[i].w);
 #endif
     }

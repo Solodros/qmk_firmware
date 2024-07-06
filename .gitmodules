@@ -1,11 +1,11 @@
 [submodule "lib/chibios"]
 	path = lib/chibios
-	url = https://github.com/qmk/ChibiOS
+	url = https://github.com/qmk/ChibiOS.git
 	branch = master
 [submodule "lib/chibios-contrib"]
 	path = lib/chibios-contrib
-	url = https://github.com/Solodros/ChibiOS-Contrib
-	branch = solodros
+	url = https://github.com/qmk/ChibiOS-Contrib.git
+	branch = master
 [submodule "lib/googletest"]
 	path = lib/googletest
 	url = https://github.com/qmk/googletest
@@ -25,4 +25,3 @@
 	path = lib/lvgl
 	url = https://github.com/qmk/lvgl.git
 	branch = release/v8.2
-
