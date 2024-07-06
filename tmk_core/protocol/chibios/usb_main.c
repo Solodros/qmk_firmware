@@ -551,6 +551,30 @@ void raw_hid_task(void) {
 
 #endif
 
+#ifdef HIDRGB_PROTOCOL_ENABLE
+void hidrgb_hid_send(uint8_t *data, uint8_t length) {
+    // TODO: implement variable size packet
+    if (length != HIDRGB_EPSIZE) {
+        return;
+    }
+    send_report(USB_ENDPOINT_IN_HIDRGB, data, length);
+}
+
+__attribute__((weak)) void hidrgb_hid_receive(uint8_t *data, uint8_t length) {
+    // Users should #include "raw_hid.h" in their own code
+    // and implement this function there. Leave this as weak linkage
+    // so users can opt to not handle data coming in.
+}
+
+void hidrgb_hid_task(void) {
+    uint8_t buffer[HIDRGB_EPSIZE];
+    while (receive_report(USB_ENDPOINT_OUT_HIDRGB, buffer, sizeof(buffer))) {
+        hidrgb_hid_receive(buffer, sizeof(buffer));
+    }
+}
+
+#endif
+
 #ifdef MIDI_ENABLE
 
 void send_midi_packet(MIDI_EventPacket_t *event) {

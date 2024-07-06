@@ -952,6 +952,29 @@ ifeq ($(strip $(UNDERGLOW_RGB_MATRIX_ENABLE)), yes)
     OPT_DEFS += -DUNDERGLOW_RGB_MATRIX_ENABLE
 endif
 
+ifeq ($(strip $(OPENRGB_ENABLE)), yes)
+	ifeq ($(strip $(RGB_MATRIX_ENABLE)), no)
+        $(error OPENRGB_ENABLE requires RGB_MATRIX_ENABLE, either disable OPENRGB_ENABLE explicitly or enable RGB_MATRIX)
+    endif
+    HIDRGB_PROTOCOL_ENABLE := yes
+    SRC += $(QUANTUM_DIR)/rgb_matrix/openrgb.c
+    OPT_DEFS += -DOPENRGB_ENABLE 
+endif
+
+ifeq ($(strip $(SIGNALRGB_ENABLE)), yes)
+	ifeq ($(strip $(RGB_MATRIX_ENABLE)), no)
+        $(error SIGNALRGB_ENABLE requires RGB_MATRIX_ENABLE, either disable SIGNALRGB_ENABLE explicitly or enable RGB_MATRIX)
+    endif
+    HIDRGB_PROTOCOL_ENABLE := yes
+    SRC += $(QUANTUM_DIR)/rgb_matrix/signalrgb.c
+    OPT_DEFS += -DSIGNALRGB_ENABLE
+endif
+
+ifeq ($(strip $(HIDRGB_PROTOCOL_ENABLE)), yes)
+    SRC += $(QUANTUM_DIR)/hidrgb_protocol.c
+    OPT_DEFS += -DHIDRGB_PROTOCOL_ENABLE
+endif
+
 VALID_RGB_INDICATORS_TYPES := solid dynamic
 
 RGB_INDICATORS ?= solid

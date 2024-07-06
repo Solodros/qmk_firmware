@@ -135,6 +135,12 @@ enum rgb_matrix_effects {
 #    endif
 #    undef RGB_MATRIX_EFFECT
 #endif
+
+#ifdef SIGNALRGB_ENABLE
+#    define RGB_MATRIX_EFFECT(name, ...) RGB_MATRIX_##name,
+#    include "signalrgb_anim.h"
+#    undef RGB_MATRIX_EFFECT
+#endif
     // --------------------------------------
     // -----End rgb effect enum macros-------
 

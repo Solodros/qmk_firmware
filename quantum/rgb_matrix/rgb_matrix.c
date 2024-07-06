@@ -29,6 +29,13 @@
 
 #include <lib/lib8tion/lib8tion.h>
 
+#ifdef OPENRGB_ENABLE
+#    include "openrgb.h"
+#endif
+
+#ifdef SIGNALRGB_ENABLE
+#    include "signalrgb.h"
+#endif
 
 #ifdef RGB_MATRIX_CONTROL_ENABLE
 #    include "rgb_matrix_control.h"
@@ -71,7 +78,9 @@ __attribute__((weak)) RGB rgb_matrix_hsv_to_rgb(HSV hsv) {
 #ifdef RGB_MATRIX_CUSTOM_USER
 #    include "rgb_matrix_user.inc"
 #endif
-
+#ifdef SIGNALRGB_ENABLE
+#    include "signalrgb_anim.h"
+#endif
 #undef RGB_MATRIX_CUSTOM_EFFECT_IMPLS
 #undef RGB_MATRIX_EFFECT
 // -----End rgb effect includes macros-------
@@ -344,6 +353,15 @@ static void rgb_task_render(uint8_t effect) {
 #    endif
 #    undef RGB_MATRIX_EFFECT
 #endif
+
+#ifdef SIGNALRGB_ENABLE
+#define RGB_MATRIX_EFFECT(name, ...)              \
+        case RGB_MATRIX_##name:                   \
+            rendering = name(&rgb_effect_params); \
+            break;
+#    include "signalrgb_anim.h"
+#    undef RGB_MATRIX_EFFECT
+#endif
             // -----End rgb effect switch case macros-------
             // ---------------------------------------------
 
@@ -517,12 +535,6 @@ void rgb_matrix_init(void) {
     ALTER_init();
 #endif
 
-//    if (!eeconfig_is_enabled()) {
-//        dprintf("rgb_matrix_init_drivers eeconfig is not enabled.\n");
-//        eeconfig_init();
-//        eeconfig_update_rgb_matrix_default();
-//    }https://github.com/qmk/qmk_firmware/commit/dc5befd13906f193f6ee8c2f9ace01100a167b20#diff-84fd35110156133ab82c877ed6c101b5608a69d745df9f18e819af4c1de74fbd
-
     eeconfig_init_rgb_matrix();
     if (!rgb_matrix_config.mode) {
         dprintf("rgb_matrix_init_drivers rgb_matrix_config.mode = 0. Write default values to EEPROM.\n");
@@ -610,6 +622,17 @@ uint8_t rgb_matrix_get_mode(void) {
 
 void rgb_matrix_step_helper(bool write_to_eeprom) {
     uint8_t mode = rgb_matrix_config.mode + 1;
+    #   ifdef OPENRGB_ENABLE   
+    if (mode == RGB_MATRIX_OPENRGB_DIRECT) { 
+        mode = mode + 1;
+    }
+#   endif
+
+#   ifdef SIGNALRGB_ENABLE   
+    if (mode == RGB_MATRIX_SIGNALRGB) { 
+        mode = mode + 1;
+    }
+#   endif
     rgb_matrix_mode_eeprom_helper((mode < RGB_MATRIX_EFFECT_MAX) ? mode : 1, write_to_eeprom);
 
 }
@@ -623,6 +646,17 @@ void rgb_matrix_step(void) {
 
 void rgb_matrix_step_reverse_helper(bool write_to_eeprom) {
     uint8_t mode = rgb_matrix_config.mode - 1;
+    #   ifdef OPENRGB_ENABLE   
+    if (mode == RGB_MATRIX_OPENRGB_DIRECT) { 
+        mode = mode - 1;
+    }
+#   endif
+
+#   ifdef SIGNALRGB_ENABLE   
+    if (mode == RGB_MATRIX_SIGNALRGB) { 
+        mode = mode - 1;
+    }
+#   endif
     rgb_matrix_mode_eeprom_helper((mode < 1) ? RGB_MATRIX_EFFECT_MAX - 1 : mode, write_to_eeprom);
 
 }

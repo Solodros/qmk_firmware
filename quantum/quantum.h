@@ -256,6 +256,14 @@ extern layer_state_t layer_state;
 #endif
 #endif
 
+#ifdef OPENRGB_ENABLE
+#    include "openrgb.h"
+#endif
+
+#ifdef SIGNALRGB_ENABLE
+#    include "signalrgb.h"
+#endif
+
 #ifdef VIA_CUSTOM_KEYCODE_ENABLE
 #   include "via_custom_keycode.h"
 #endif
