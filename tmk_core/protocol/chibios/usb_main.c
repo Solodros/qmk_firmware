@@ -575,7 +575,7 @@ __attribute__((weak)) void hidrgb_hid_receive(uint8_t *data, uint8_t length) {
 void hidrgb_hid_task(void) {
     uint8_t buffer[HIDRGB_EPSIZE];
     while (receive_report(USB_ENDPOINT_OUT_HIDRGB, buffer, sizeof(buffer))) {
-        raw_hid_receive(buffer, sizeof(buffer));
+        hidrgb_hid_receive(buffer, sizeof(buffer));
     }
 }
 
