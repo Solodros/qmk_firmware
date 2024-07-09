@@ -35,6 +35,7 @@ void         os_detection_notify_usb_device_state_change(enum usb_device_state u
 
 void os_detection_task(void);
 
+bool process_detected_host_os(os_variant_t os);
 bool process_detected_host_os_kb(os_variant_t os);
 bool process_detected_host_os_user(os_variant_t os);
 

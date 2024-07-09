@@ -493,6 +493,12 @@ void send_extra(report_extra_t *report) {
 #endif
 }
 
+void send_radial(report_radial_t *report) {
+#ifdef RADIAL_CONTROLLER_ENABLE
+    send_report(USB_ENDPOINT_IN_SHARED, report, sizeof(report_radial_t));
+#endif
+}
+
 void send_programmable_button(report_programmable_button_t *report) {
 #ifdef PROGRAMMABLE_BUTTON_ENABLE
     send_report(USB_ENDPOINT_IN_SHARED, report, sizeof(report_programmable_button_t));
@@ -546,6 +552,30 @@ void raw_hid_task(void) {
     uint8_t buffer[RAW_EPSIZE];
     while (receive_report(USB_ENDPOINT_OUT_RAW, buffer, sizeof(buffer))) {
         raw_hid_receive(buffer, sizeof(buffer));
+    }
+}
+
+#endif
+
+#ifdef HIDRGB_PROTOCOL_ENABLE
+void hidrgb_hid_send(uint8_t *data, uint8_t length) {
+    // TODO: implement variable size packet
+    if (length != HIDRGB_EPSIZE) {
+        return;
+    }
+    send_report(USB_ENDPOINT_IN_HIDRGB, data, length);
+}
+
+__attribute__((weak)) void hidrgb_hid_receive(uint8_t *data, uint8_t length) {
+    // Users should #include "raw_hid.h" in their own code
+    // and implement this function there. Leave this as weak linkage
+    // so users can opt to not handle data coming in.
+}
+
+void hidrgb_hid_task(void) {
+    uint8_t buffer[HIDRGB_EPSIZE];
+    while (receive_report(USB_ENDPOINT_OUT_HIDRGB, buffer, sizeof(buffer))) {
+        hidrgb_hid_receive(buffer, sizeof(buffer));
     }
 }
 

@@ -94,6 +94,10 @@ void os_detection_task(void) {
 #endif
 }
 
+__attribute__((weak)) bool process_detected_host_os(os_variant_t detected_os) {
+    return process_detected_host_os_kb(detected_os);
+}
+
 __attribute__((weak)) bool process_detected_host_os_kb(os_variant_t detected_os) {
     return process_detected_host_os_user(detected_os);
 }
@@ -142,6 +146,7 @@ void process_wlength(const uint16_t w_length) {
     // only replace the guessed value if not unsure
     if (guessed != OS_UNSURE) {
         detected_os = guessed;
+        process_detected_host_os(guessed);
     }
 
     // whatever the result, debounce

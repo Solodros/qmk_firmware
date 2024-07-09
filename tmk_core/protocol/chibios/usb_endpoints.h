@@ -43,6 +43,14 @@
 #    define RAW_OUT_CAPACITY USB_DEFAULT_BUFFER_CAPACITY
 #endif
 
+#if !defined(HIDRGB_IN_CAPACITY)
+#    define HIDRGB_IN_CAPACITY USB_DEFAULT_BUFFER_CAPACITY
+#endif
+
+#if !defined(HIDRGB_OUT_CAPACITY)
+#    define HIDRGB_OUT_CAPACITY USB_DEFAULT_BUFFER_CAPACITY
+#endif
+
 #if !defined(MIDI_STREAM_IN_CAPACITY)
 #    define MIDI_STREAM_IN_CAPACITY USB_DEFAULT_BUFFER_CAPACITY
 #endif
@@ -90,6 +98,10 @@ typedef enum {
     USB_ENDPOINT_IN_RAW,
 #endif
 
+#if defined(HIDRGB_PROTOCOL_ENABLE)
+    USB_ENDPOINT_IN_HIDRGB,
+#endif
+
 #if defined(MIDI_ENABLE)
     USB_ENDPOINT_IN_MIDI,
 #endif
@@ -129,6 +141,9 @@ typedef enum {
 #endif
 #if defined(MIDI_ENABLE)
     USB_ENDPOINT_OUT_MIDI,
+#endif
+#if defined(HIDRGB_PROTOCOL_ENABLE)
+    USB_ENDPOINT_OUT_HIDRGB,
 #endif
 #if defined(VIRTSER_ENABLE)
     USB_ENDPOINT_OUT_CDC_DATA,

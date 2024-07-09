@@ -24,6 +24,8 @@
 #include "rgb_matrix_drivers.h"
 #include "color.h"
 #include "keyboard.h"
+#include "rgb_matrix_legacy_enables.h"
+
 
 #ifndef RGB_MATRIX_TIMEOUT
 #    define RGB_MATRIX_TIMEOUT 0
@@ -131,6 +133,12 @@ enum rgb_matrix_effects {
 #    ifdef RGB_MATRIX_CUSTOM_USER
 #        include "rgb_matrix_user.inc"
 #    endif
+#    undef RGB_MATRIX_EFFECT
+#endif
+
+#ifdef SIGNALRGB_ENABLE
+#    define RGB_MATRIX_EFFECT(name, ...) RGB_MATRIX_##name,
+#    include "signalrgb_anim.h"
 #    undef RGB_MATRIX_EFFECT
 #endif
     // --------------------------------------

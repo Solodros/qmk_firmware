@@ -55,6 +55,11 @@ int main(void) {
         raw_hid_task();
 #endif
 
+#ifdef HIDRGB_PROTOCOL_ENABLE
+        void hidrgb_hid_task(void);
+        hidrgb_hid_task();
+#endif
+
 #ifdef CONSOLE_ENABLE
         void console_task(void);
         console_task();

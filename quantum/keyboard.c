@@ -140,6 +140,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef OS_DETECTION_ENABLE
 #    include "os_detection.h"
 #endif
+#ifdef JOYSTICK_TRIGGER_ENABLE
+#    include "joystick_trigger.h"
+#endif
+
+#ifdef RGB_MATRIX_CONTROL_ENABLE
+#    include "rgb_matrix_control.h"
+#endif
+
+#ifdef UNDERGLOW_RGB_MATRIX_ENABLE
+#    include "underglow_rgb_matrix.h"
+#endif
+
+#ifdef RGB_INDICATORS_ENABLE
+#ifdef DYNAMIC_RGB_INDICATORS_ENABLE
+#   include "dynamic_rgb_indicators.h"
+#else
+#   include "rgb_indicators.h"
+#endif
+#endif
+
+#   include "magic_settings.h"
+#   include "auto_switch_layers.h"
+
+#ifdef DYNAMIC_TAP_DANCE_ENABLE
+#   include "dynamic_tap_dance.h"
+#endif
+
+#ifdef DYNAMIC_COMBOS_ENABLE
+#   include "dynamic_combos.h"
+#endif
 
 static uint32_t last_input_modification_time = 0;
 uint32_t        last_input_activity_time(void) {
@@ -399,6 +429,7 @@ void quantum_init(void) {
 
     /* Also initialize layer state to trigger callback functions for layer_state */
     layer_state_set_kb((layer_state_t)layer_state);
+
 }
 
 /** \brief keyboard_init
@@ -434,6 +465,27 @@ void keyboard_init(void) {
 #endif
 #if defined(UNICODE_COMMON_ENABLE)
     unicode_input_mode_init();
+#endif
+#ifdef RGB_MATRIX_CONTROL_ENABLE
+    rgb_matrix_control_init();
+#endif
+#ifdef UNDERGLOW_RGB_MATRIX_ENABLE
+    underglow_rgb_matrix_init();
+#endif
+#ifdef RGB_INDICATORS_ENABLE
+    rgb_indicators_init();
+#endif
+#ifdef MAGIC_SETTINGS_ENABLE
+    magic_settings_init();
+#endif
+#ifdef AUTO_SWITCH_LAYERS_ENABLE
+    auto_switch_layers_init();
+#endif
+#ifdef DYNAMIC_TAP_DANCE_ENABLE
+    dynamic_tap_dance_init();
+#endif
+#ifdef DYNAMIC_COMBOS_ENABLE
+    dynamic_combos_init();
 #endif
 #if defined(CRC_ENABLE)
     crc_init();
@@ -484,6 +536,9 @@ void keyboard_init(void) {
 #endif
 #ifdef HAPTIC_ENABLE
     haptic_init();
+#endif
+#ifdef JOYSTICK_TRIGGER_ENABLE
+    joystick_trigger_init();
 #endif
 
 #if defined(DEBUG_MATRIX_SCAN_RATE) && defined(CONSOLE_ENABLE)
@@ -655,6 +710,10 @@ void quantum_task(void) {
 #ifdef SECURE_ENABLE
     secure_task();
 #endif
+
+#ifdef RADIAL_CONTROLLER_ENABLE
+    radial_controller_task();
+#endif
 }
 
 /** \brief Main task that is repeatedly called as fast as possible. */
@@ -743,6 +802,9 @@ void keyboard_task(void) {
     haptic_task();
 #endif
 
+#ifdef JOYSTICK_TRIGGER_ENABLE
+    joystick_trigger_task();
+#endif
     led_task();
 
 #ifdef OS_DETECTION_ENABLE
