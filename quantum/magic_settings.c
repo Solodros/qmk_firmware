@@ -44,6 +44,9 @@ static void eeconfig_update_magic_settings_default(void) {
 #ifndef NO_ACTION_ONESHOT
     oneshot_maigc_settings_reset();
 #endif
+#ifndef AUTOCORRECT_ENABLE
+    autocorect_maigc_settings_reset();
+#endif
 #ifdef COMBO_ENABLE
     combo_maigc_settings_reset();
 #endif
@@ -178,7 +181,16 @@ void auto_shift_maigc_settings_update(void) {
 }
 
 void auto_shift_maigc_settings_reset(void) {
-    magic_settings_config.auto_shift_config = 0;
+    magic_settings_config.auto_shift_config = 0b00000000;//默认不打开
+    //启用自动shift     0b00000001
+    //修饰键启用        0b00000010
+    //字母键不启用      0b00000100
+    //数字键不启用      0b00001000
+    //符号键不启用      0b00010000
+    //启用长按功能      0b00100000
+    //触发后关闭长按功能 0b01000000
+    //
+    //
     magic_settings_config.auto_shift_timeout = AUTO_SHIFT_TIMEOUT;
     auto_shift_maigc_settings_update();
 }
@@ -186,8 +198,15 @@ void auto_shift_maigc_settings_reset(void) {
 
 #ifndef NO_ACTION_ONESHOT
 void oneshot_maigc_settings_reset(void) {
+    keymap_config.oneshot_enable = 0;//默认不打开
     magic_settings_config.oneshot_tap_toggle = ONESHOT_TAP_TOGGLE;
     magic_settings_config.oneshot_timeout = ONESHOT_TIMEOUT;
+}
+#endif
+
+#ifndef AUTOCORRECT_ENABLE
+void autocorect_maigc_settings_reset(void) {
+    keymap_config.autocorrect_enable = 0;//默认不打开
 }
 #endif
 
@@ -223,7 +242,12 @@ void combo_maigc_settings_update(void) {
 }
 
 void combo_maigc_settings_reset(void) {
-    magic_settings_config.combo_config = 0x09;
+    magic_settings_config.combo_config = 0x00;
+    //0x09 = 0b00001001
+    //启用组合键 0b00000001
+    //组合键在点击或长按时触发 0b00000010
+    //组合键仅在点击时触发 0b00000100
+    //组合键仅按顺序按下按键时触发0b00001000
     magic_settings_config.combo_term = COMBO_TERM;
     magic_settings_config.combo_hold_term = COMBO_HOLD_TERM;
     combo_maigc_settings_update();

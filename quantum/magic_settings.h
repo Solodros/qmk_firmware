@@ -134,6 +134,11 @@ void auto_shift_maigc_settings_reset(void);
 void oneshot_maigc_settings_reset(void);
 #endif
 
+//AUTOCORRECT Settings
+#ifndef AUTOCORRECT_ENABLE
+void autocorect_maigc_settings_reset(void);
+#endif
+
 // Combo Settings
 #ifdef COMBO_ENABLE
 #ifndef COMBO_MUST_HOLD_PER_COMBO
