@@ -162,19 +162,6 @@ void host_consumer_send(uint16_t usage) {
     (*driver->send_extra)(&report);
 }
 
-#ifdef RADIAL_CONTROLLER_ENABLE
-void host_radial_send(uint16_t data) {
-    report_radial_t report = {
-        .report_id = REPORT_ID_RADIAL,
-        .usage     = data,
-    };
-    send_radial(&report);
-}
-#endif
-
-__attribute__((weak)) void send_radial(report_radial_t *report) {}
-
-
 #ifdef JOYSTICK_ENABLE
 void host_joystick_send(joystick_t *joystick) {
     if (!driver) return;
@@ -248,6 +235,18 @@ void host_digitizer_send(digitizer_t *digitizer) {
 #endif
 
 __attribute__((weak)) void send_digitizer(report_digitizer_t *report) {}
+
+#ifdef RADIAL_CONTROLLER_ENABLE
+void host_radial_send(uint16_t data) {
+    report_radial_t report = {
+        .report_id = REPORT_ID_RADIAL,
+        .usage     = data,
+    };
+    send_radial(&report);
+}
+#endif
+
+__attribute__((weak)) void send_radial(report_radial_t *report) {}
 
 #ifdef PROGRAMMABLE_BUTTON_ENABLE
 void host_programmable_button_send(uint32_t data) {

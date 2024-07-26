@@ -324,6 +324,170 @@ void num_lock_indicator_mode_step_reverse(void) {
     }
 }
 
+void num_lock_indicator_led_step(void){
+    if (rgb_matrix_is_enabled() && is_num_lock_enabled()) {//只能在打开全局灯光时改变设置
+        uint8_t led;
+
+        if(rgb_indicators_config.num_lock_config.all_led == 1){
+            led = 1;
+        }
+        else if(rgb_indicators_config.num_lock_config.key_led == 1){
+            led = 2;
+        }
+        else if(rgb_indicators_config.num_lock_config.underglow_led == 1){
+            led = 3;
+        }
+        else if(rgb_indicators_config.num_lock_config.logo_led == 1 ){
+            led = 4;
+        }
+        else{
+            led = rgb_indicators_config.num_lock_config.led + 5; 
+        };
+
+        led = led + 1;
+
+        if(led >= (RGB_MATRIX_LED_COUNT + 5)){
+            led = 1;    
+        };
+
+        if(led == 1){
+            rgb_indicators_config.num_lock_config.all_led = 1; 
+            rgb_indicators_config.num_lock_config.key_led = 0;
+            rgb_indicators_config.num_lock_config.underglow_led = 0;
+            rgb_indicators_config.num_lock_config.logo_led = 0;    
+        }
+        else if(led == 2){
+            rgb_indicators_config.num_lock_config.all_led = 0; 
+            rgb_indicators_config.num_lock_config.key_led = 1;
+            rgb_indicators_config.num_lock_config.underglow_led = 0;
+            rgb_indicators_config.num_lock_config.logo_led = 0;   
+        }
+        else if(led == 3){
+            rgb_indicators_config.num_lock_config.all_led = 0; 
+            rgb_indicators_config.num_lock_config.key_led = 0;
+            rgb_indicators_config.num_lock_config.underglow_led = 1;
+            rgb_indicators_config.num_lock_config.logo_led = 0;
+        }
+        else if(led == 4){
+            rgb_indicators_config.num_lock_config.all_led = 0; 
+            rgb_indicators_config.num_lock_config.key_led = 0;
+            rgb_indicators_config.num_lock_config.underglow_led = 0;
+            rgb_indicators_config.num_lock_config.logo_led = 1;
+        }
+        else {
+            rgb_indicators_config.num_lock_config.all_led = 0; 
+            rgb_indicators_config.num_lock_config.key_led = 0;
+            rgb_indicators_config.num_lock_config.underglow_led = 0;
+            rgb_indicators_config.num_lock_config.logo_led = 0;
+            rgb_indicators_config.num_lock_config.led = led - 5;
+        };
+        update_dynamic_rgb_indicators();
+    }        
+}
+
+void num_lock_indicator_led_reverse(void){
+    if (rgb_matrix_is_enabled() && is_num_lock_enabled()) {
+        uint8_t led;
+        if(rgb_indicators_config.num_lock_config.all_led == 1){
+            led = 1;
+        }
+        else if(rgb_indicators_config.num_lock_config.key_led == 1){
+            led = 2;
+        }
+        else if(rgb_indicators_config.num_lock_config.underglow_led == 1){
+            led = 3;
+        }
+        else if(rgb_indicators_config.num_lock_config.logo_led == 1 ){
+            led = 4;
+        }
+        else{
+            led = rgb_indicators_config.num_lock_config.led + 5; 
+        };
+
+
+        led = led - 1;
+
+        if(led == 0){
+            led = (RGB_MATRIX_LED_COUNT + 5);    
+        };
+
+        if(led == 1){
+            rgb_indicators_config.num_lock_config.all_led = 1; 
+            rgb_indicators_config.num_lock_config.key_led = 0;
+            rgb_indicators_config.num_lock_config.underglow_led = 0;
+            rgb_indicators_config.num_lock_config.logo_led = 0;    
+        }
+        else if(led == 2){
+            rgb_indicators_config.num_lock_config.all_led = 0; 
+            rgb_indicators_config.num_lock_config.key_led = 1;
+            rgb_indicators_config.num_lock_config.underglow_led = 0;
+            rgb_indicators_config.num_lock_config.logo_led = 0;   
+        }
+        else if(led == 3){
+            rgb_indicators_config.num_lock_config.all_led = 0; 
+            rgb_indicators_config.num_lock_config.key_led = 0;
+            rgb_indicators_config.num_lock_config.underglow_led = 1;
+            rgb_indicators_config.num_lock_config.logo_led = 0;
+        }
+        else if(led == 4){
+            rgb_indicators_config.num_lock_config.all_led = 0; 
+            rgb_indicators_config.num_lock_config.key_led = 0;
+            rgb_indicators_config.num_lock_config.underglow_led = 0;
+            rgb_indicators_config.num_lock_config.logo_led = 1;
+        }
+        else {
+            rgb_indicators_config.num_lock_config.all_led = 0; 
+            rgb_indicators_config.num_lock_config.key_led = 0;
+            rgb_indicators_config.num_lock_config.underglow_led = 0;
+            rgb_indicators_config.num_lock_config.logo_led = 0;
+            rgb_indicators_config.num_lock_config.led = led - 5;
+        };
+        update_dynamic_rgb_indicators();
+    }        
+}
+
+void num_lock_indicator_set_hue(uint8_t hue, bool update){
+    rgb_indicators_config.num_lock_config.hsv.h = hue;
+    if(update)
+        update_dynamic_rgb_indicators();
+}
+
+void num_lock_indicator_set_sat(uint8_t sat, bool update){
+    rgb_indicators_config.num_lock_config.hsv.s = sat;
+    if(update)
+        update_dynamic_rgb_indicators();
+}
+
+void num_lock_indicator_set_val(uint8_t val, bool update){
+    rgb_indicators_config.num_lock_config.hsv.v = val;
+    if(update)
+        update_dynamic_rgb_indicators();
+}
+
+void num_lock_indicator_increase_hue(void) {
+    num_lock_indicator_set_hue(rgb_indicators_config.num_lock_config.hsv.h + RGB_MATRIX_HUE_STEP, true);
+}
+
+void num_lock_indicator_decrease_hue(void) {
+    num_lock_indicator_set_hue(rgb_indicators_config.num_lock_config.hsv.h - RGB_MATRIX_HUE_STEP, true);
+}
+
+void num_lock_indicator_increase_sat(void) {
+    num_lock_indicator_set_sat(qadd8(rgb_indicators_config.num_lock_config.hsv.s, RGB_MATRIX_SAT_STEP), true);
+}
+
+void num_lock_indicator_decrease_sat(void) {
+    num_lock_indicator_set_sat(qsub8(rgb_indicators_config.num_lock_config.hsv.s, RGB_MATRIX_SAT_STEP), true);
+}
+
+void num_lock_indicator_increase_val(void) {
+    num_lock_indicator_set_val(qadd8(rgb_indicators_config.num_lock_config.hsv.v, RGB_MATRIX_VAL_STEP), true);
+}
+
+void num_lock_indicator_decrease_val(void) {
+    num_lock_indicator_set_val(qsub8(rgb_indicators_config.num_lock_config.hsv.v, RGB_MATRIX_VAL_STEP), true);
+}
+
 void caps_lock_indicator_toggle(void) {
     if (rgb_matrix_is_enabled()) {
         rgb_indicators_config.caps_lock_config.enable ^= 1;
@@ -345,6 +509,170 @@ void caps_lock_indicator_mode_step_reverse(void) {
         rgb_indicators_config.caps_lock_config.mode = mod < 1 ? rgb_indicators_effect_num  - 1 : mod;;
         update_dynamic_rgb_indicators();
     }
+}
+
+void caps_lock_indicator_led_step(void){
+    if (rgb_matrix_is_enabled() && is_caps_lock_enabled()) {//只能在打开全局灯光时改变设置
+        uint8_t led;
+
+        if(rgb_indicators_config.caps_lock_config.all_led == 1){
+            led = 1;
+        }
+        else if(rgb_indicators_config.caps_lock_config.key_led == 1){
+            led = 2;
+        }
+        else if(rgb_indicators_config.caps_lock_config.underglow_led == 1){
+            led = 3;
+        }
+        else if(rgb_indicators_config.caps_lock_config.logo_led == 1 ){
+            led = 4;
+        }
+        else{
+            led = rgb_indicators_config.caps_lock_config.led + 5; 
+        };
+
+        led = led + 1;
+
+        if(led >= (RGB_MATRIX_LED_COUNT + 5)){
+            led = 1;    
+        };
+
+        if(led == 1){
+            rgb_indicators_config.caps_lock_config.all_led = 1; 
+            rgb_indicators_config.caps_lock_config.key_led = 0;
+            rgb_indicators_config.caps_lock_config.underglow_led = 0;
+            rgb_indicators_config.caps_lock_config.logo_led = 0;    
+        }
+        else if(led == 2){
+            rgb_indicators_config.caps_lock_config.all_led = 0; 
+            rgb_indicators_config.caps_lock_config.key_led = 1;
+            rgb_indicators_config.caps_lock_config.underglow_led = 0;
+            rgb_indicators_config.caps_lock_config.logo_led = 0;   
+        }
+        else if(led == 3){
+            rgb_indicators_config.caps_lock_config.all_led = 0; 
+            rgb_indicators_config.caps_lock_config.key_led = 0;
+            rgb_indicators_config.caps_lock_config.underglow_led = 1;
+            rgb_indicators_config.caps_lock_config.logo_led = 0;
+        }
+        else if(led == 4){
+            rgb_indicators_config.caps_lock_config.all_led = 0; 
+            rgb_indicators_config.caps_lock_config.key_led = 0;
+            rgb_indicators_config.caps_lock_config.underglow_led = 0;
+            rgb_indicators_config.caps_lock_config.logo_led = 1;
+        }
+        else {
+            rgb_indicators_config.caps_lock_config.all_led = 0; 
+            rgb_indicators_config.caps_lock_config.key_led = 0;
+            rgb_indicators_config.caps_lock_config.underglow_led = 0;
+            rgb_indicators_config.caps_lock_config.logo_led = 0;
+            rgb_indicators_config.caps_lock_config.led = led - 5;
+        };
+        update_dynamic_rgb_indicators();
+    }        
+}
+
+void caps_lock_indicator_led_reverse(void){
+    if (rgb_matrix_is_enabled() && is_caps_lock_enabled()) {
+        uint8_t led;
+        if(rgb_indicators_config.caps_lock_config.all_led == 1){
+            led = 1;
+        }
+        else if(rgb_indicators_config.caps_lock_config.key_led == 1){
+            led = 2;
+        }
+        else if(rgb_indicators_config.caps_lock_config.underglow_led == 1){
+            led = 3;
+        }
+        else if(rgb_indicators_config.caps_lock_config.logo_led == 1 ){
+            led = 4;
+        }
+        else{
+            led = rgb_indicators_config.caps_lock_config.led + 5; 
+        };
+
+
+        led = led - 1;
+
+        if(led == 0){
+            led = (RGB_MATRIX_LED_COUNT + 5);    
+        };
+
+        if(led == 1){
+            rgb_indicators_config.caps_lock_config.all_led = 1; 
+            rgb_indicators_config.caps_lock_config.key_led = 0;
+            rgb_indicators_config.caps_lock_config.underglow_led = 0;
+            rgb_indicators_config.caps_lock_config.logo_led = 0;    
+        }
+        else if(led == 2){
+            rgb_indicators_config.caps_lock_config.all_led = 0; 
+            rgb_indicators_config.caps_lock_config.key_led = 1;
+            rgb_indicators_config.caps_lock_config.underglow_led = 0;
+            rgb_indicators_config.caps_lock_config.logo_led = 0;   
+        }
+        else if(led == 3){
+            rgb_indicators_config.caps_lock_config.all_led = 0; 
+            rgb_indicators_config.caps_lock_config.key_led = 0;
+            rgb_indicators_config.caps_lock_config.underglow_led = 1;
+            rgb_indicators_config.caps_lock_config.logo_led = 0;
+        }
+        else if(led == 4){
+            rgb_indicators_config.caps_lock_config.all_led = 0; 
+            rgb_indicators_config.caps_lock_config.key_led = 0;
+            rgb_indicators_config.caps_lock_config.underglow_led = 0;
+            rgb_indicators_config.caps_lock_config.logo_led = 1;
+        }
+        else {
+            rgb_indicators_config.caps_lock_config.all_led = 0; 
+            rgb_indicators_config.caps_lock_config.key_led = 0;
+            rgb_indicators_config.caps_lock_config.underglow_led = 0;
+            rgb_indicators_config.caps_lock_config.logo_led = 0;
+            rgb_indicators_config.caps_lock_config.led = led - 5;
+        };
+        update_dynamic_rgb_indicators();
+    }        
+}
+
+void caps_lock_indicator_set_hue(uint8_t hue, bool update){
+    rgb_indicators_config.caps_lock_config.hsv.h = hue;
+    if(update)
+        update_dynamic_rgb_indicators();
+}
+
+void caps_lock_indicator_set_sat(uint8_t sat, bool update){
+    rgb_indicators_config.caps_lock_config.hsv.s = sat;
+    if(update)
+        update_dynamic_rgb_indicators();
+}
+
+void caps_lock_indicator_set_val(uint8_t val, bool update){
+    rgb_indicators_config.caps_lock_config.hsv.v = val;
+    if(update)
+        update_dynamic_rgb_indicators();
+}
+
+void caps_lock_indicator_increase_hue(void) {
+    caps_lock_indicator_set_hue(rgb_indicators_config.caps_lock_config.hsv.h + RGB_MATRIX_HUE_STEP, true);
+}
+
+void caps_lock_indicator_decrease_hue(void) {
+    caps_lock_indicator_set_hue(rgb_indicators_config.caps_lock_config.hsv.h - RGB_MATRIX_HUE_STEP, true);
+}
+
+void caps_lock_indicator_increase_sat(void) {
+    caps_lock_indicator_set_sat(qadd8(rgb_indicators_config.caps_lock_config.hsv.s, RGB_MATRIX_SAT_STEP), true);
+}
+
+void caps_lock_indicator_decrease_sat(void) {
+    caps_lock_indicator_set_sat(qsub8(rgb_indicators_config.caps_lock_config.hsv.s, RGB_MATRIX_SAT_STEP), true);
+}
+
+void caps_lock_indicator_increase_val(void) {
+    caps_lock_indicator_set_val(qadd8(rgb_indicators_config.caps_lock_config.hsv.v, RGB_MATRIX_VAL_STEP), true);
+}
+
+void caps_lock_indicator_decrease_val(void) {
+    caps_lock_indicator_set_val(qsub8(rgb_indicators_config.caps_lock_config.hsv.v, RGB_MATRIX_VAL_STEP), true);
 }
 
 
@@ -369,6 +697,170 @@ void scroll_lock_indicator_mode_step_reverse(void) {
         rgb_indicators_config.scroll_lock_config.mode = mod < 1 ? rgb_indicators_effect_num  - 1 : mod;
         update_dynamic_rgb_indicators();
     }
+}
+
+void scroll_lock_indicator_led_step(void){
+    if (rgb_matrix_is_enabled() && is_scroll_lock_enabled()) {//只能在打开全局灯光时改变设置
+        uint8_t led;
+
+        if(rgb_indicators_config.scroll_lock_config.all_led == 1){
+            led = 1;
+        }
+        else if(rgb_indicators_config.scroll_lock_config.key_led == 1){
+            led = 2;
+        }
+        else if(rgb_indicators_config.scroll_lock_config.underglow_led == 1){
+            led = 3;
+        }
+        else if(rgb_indicators_config.scroll_lock_config.logo_led == 1 ){
+            led = 4;
+        }
+        else{
+            led = rgb_indicators_config.scroll_lock_config.led + 5; 
+        };
+
+        led = led + 1;
+
+        if(led >= (RGB_MATRIX_LED_COUNT + 5)){
+            led = 1;    
+        };
+
+        if(led == 1){
+            rgb_indicators_config.scroll_lock_config.all_led = 1; 
+            rgb_indicators_config.scroll_lock_config.key_led = 0;
+            rgb_indicators_config.scroll_lock_config.underglow_led = 0;
+            rgb_indicators_config.scroll_lock_config.logo_led = 0;    
+        }
+        else if(led == 2){
+            rgb_indicators_config.scroll_lock_config.all_led = 0; 
+            rgb_indicators_config.scroll_lock_config.key_led = 1;
+            rgb_indicators_config.scroll_lock_config.underglow_led = 0;
+            rgb_indicators_config.scroll_lock_config.logo_led = 0;   
+        }
+        else if(led == 3){
+            rgb_indicators_config.scroll_lock_config.all_led = 0; 
+            rgb_indicators_config.scroll_lock_config.key_led = 0;
+            rgb_indicators_config.scroll_lock_config.underglow_led = 1;
+            rgb_indicators_config.scroll_lock_config.logo_led = 0;
+        }
+        else if(led == 4){
+            rgb_indicators_config.scroll_lock_config.all_led = 0; 
+            rgb_indicators_config.scroll_lock_config.key_led = 0;
+            rgb_indicators_config.scroll_lock_config.underglow_led = 0;
+            rgb_indicators_config.scroll_lock_config.logo_led = 1;
+        }
+        else {
+            rgb_indicators_config.scroll_lock_config.all_led = 0; 
+            rgb_indicators_config.scroll_lock_config.key_led = 0;
+            rgb_indicators_config.scroll_lock_config.underglow_led = 0;
+            rgb_indicators_config.scroll_lock_config.logo_led = 0;
+            rgb_indicators_config.scroll_lock_config.led = led - 5;
+        };
+        update_dynamic_rgb_indicators();
+    }        
+}
+
+void scroll_lock_indicator_led_reverse(void){
+    if (rgb_matrix_is_enabled() && is_scroll_lock_enabled()) {
+        uint8_t led;
+        if(rgb_indicators_config.scroll_lock_config.all_led == 1){
+            led = 1;
+        }
+        else if(rgb_indicators_config.scroll_lock_config.key_led == 1){
+            led = 2;
+        }
+        else if(rgb_indicators_config.scroll_lock_config.underglow_led == 1){
+            led = 3;
+        }
+        else if(rgb_indicators_config.scroll_lock_config.logo_led == 1 ){
+            led = 4;
+        }
+        else{
+            led = rgb_indicators_config.scroll_lock_config.led + 5; 
+        };
+
+
+        led = led - 1;
+
+        if(led == 0){
+            led = (RGB_MATRIX_LED_COUNT + 5);    
+        };
+
+        if(led == 1){
+            rgb_indicators_config.scroll_lock_config.all_led = 1; 
+            rgb_indicators_config.scroll_lock_config.key_led = 0;
+            rgb_indicators_config.scroll_lock_config.underglow_led = 0;
+            rgb_indicators_config.scroll_lock_config.logo_led = 0;    
+        }
+        else if(led == 2){
+            rgb_indicators_config.scroll_lock_config.all_led = 0; 
+            rgb_indicators_config.scroll_lock_config.key_led = 1;
+            rgb_indicators_config.scroll_lock_config.underglow_led = 0;
+            rgb_indicators_config.scroll_lock_config.logo_led = 0;   
+        }
+        else if(led == 3){
+            rgb_indicators_config.scroll_lock_config.all_led = 0; 
+            rgb_indicators_config.scroll_lock_config.key_led = 0;
+            rgb_indicators_config.scroll_lock_config.underglow_led = 1;
+            rgb_indicators_config.scroll_lock_config.logo_led = 0;
+        }
+        else if(led == 4){
+            rgb_indicators_config.scroll_lock_config.all_led = 0; 
+            rgb_indicators_config.scroll_lock_config.key_led = 0;
+            rgb_indicators_config.scroll_lock_config.underglow_led = 0;
+            rgb_indicators_config.scroll_lock_config.logo_led = 1;
+        }
+        else {
+            rgb_indicators_config.scroll_lock_config.all_led = 0; 
+            rgb_indicators_config.scroll_lock_config.key_led = 0;
+            rgb_indicators_config.scroll_lock_config.underglow_led = 0;
+            rgb_indicators_config.scroll_lock_config.logo_led = 0;
+            rgb_indicators_config.scroll_lock_config.led = led - 5;
+        };
+        update_dynamic_rgb_indicators();
+    }        
+}
+
+void scroll_lock_indicator_set_hue(uint8_t hue, bool update){
+    rgb_indicators_config.scroll_lock_config.hsv.h = hue;
+    if(update)
+        update_dynamic_rgb_indicators();
+}
+
+void scroll_lock_indicator_set_sat(uint8_t sat, bool update){
+    rgb_indicators_config.scroll_lock_config.hsv.s = sat;
+    if(update)
+        update_dynamic_rgb_indicators();
+}
+
+void scroll_lock_indicator_set_val(uint8_t val, bool update){
+    rgb_indicators_config.scroll_lock_config.hsv.v = val;
+    if(update)
+        update_dynamic_rgb_indicators();
+}
+
+void scroll_lock_indicator_increase_hue(void) {
+    scroll_lock_indicator_set_hue(rgb_indicators_config.scroll_lock_config.hsv.h + RGB_MATRIX_HUE_STEP, true);
+}
+
+void scroll_lock_indicator_decrease_hue(void) {
+    scroll_lock_indicator_set_hue(rgb_indicators_config.scroll_lock_config.hsv.h - RGB_MATRIX_HUE_STEP, true);
+}
+
+void scroll_lock_indicator_increase_sat(void) {
+    scroll_lock_indicator_set_sat(qadd8(rgb_indicators_config.scroll_lock_config.hsv.s, RGB_MATRIX_SAT_STEP), true);
+}
+
+void scroll_lock_indicator_decrease_sat(void) {
+    scroll_lock_indicator_set_sat(qsub8(rgb_indicators_config.scroll_lock_config.hsv.s, RGB_MATRIX_SAT_STEP), true);
+}
+
+void scroll_lock_indicator_increase_val(void) {
+    scroll_lock_indicator_set_val(qadd8(rgb_indicators_config.scroll_lock_config.hsv.v, RGB_MATRIX_VAL_STEP), true);
+}
+
+void scroll_lock_indicator_decrease_val(void) {
+    scroll_lock_indicator_set_val(qsub8(rgb_indicators_config.scroll_lock_config.hsv.v, RGB_MATRIX_VAL_STEP), true);
 }
 
 void rgb_indicators_enable(uint8_t indicator, bool update) {
@@ -777,6 +1269,46 @@ bool process_rgb_indicators(uint16_t keycode, keyrecord_t *record) {
                 num_lock_indicator_mode_step_reverse();
             }
             return false;
+        case RGB_IND_NUM_LOCK_LF:
+            if (record->event.pressed) {
+                num_lock_indicator_led_step();
+            }
+            return false;
+        case RGB_IND_NUM_LOCK_LR:
+            if (record->event.pressed) {
+                num_lock_indicator_led_reverse();
+            }
+            return false;
+        case RGB_IND_NUM_LOCK_HI:
+            if (record->event.pressed) {
+                num_lock_indicator_increase_hue();
+            }
+            return false;
+        case RGB_IND_NUM_LOCK_HD:
+            if (record->event.pressed) {
+                num_lock_indicator_decrease_hue();
+            }
+            return false;
+        case RGB_IND_NUM_LOCK_SI:
+            if (record->event.pressed) {
+                num_lock_indicator_increase_sat();
+            }
+            return false;
+        case RGB_IND_NUM_LOCK_SD:
+            if (record->event.pressed) {
+                num_lock_indicator_decrease_sat();
+            }
+            return false;
+        case RGB_IND_NUM_LOCK_VI:
+            if (record->event.pressed) {
+                num_lock_indicator_increase_val();
+            }
+            return false;
+        case RGB_IND_NUM_LOCK_VD:
+            if (record->event.pressed) {
+                num_lock_indicator_decrease_val();
+            }                
+            return false;            
         case RGB_IND_CAPS_LOCK_TOG:
             if (record->event.pressed) {
                 caps_lock_indicator_toggle();
@@ -792,6 +1324,46 @@ bool process_rgb_indicators(uint16_t keycode, keyrecord_t *record) {
                 caps_lock_indicator_mode_step_reverse();
             }
             return false;
+        case RGB_IND_CAPS_LOCK_LF:
+            if (record->event.pressed) {
+                caps_lock_indicator_led_step();
+            }
+            return false;
+        case RGB_IND_CAPS_LOCK_LR:
+            if (record->event.pressed) {
+                caps_lock_indicator_led_reverse();
+            }
+            return false;
+        case RGB_IND_CAPS_LOCK_HI:
+            if (record->event.pressed) {
+                caps_lock_indicator_increase_hue();
+            }
+            return false;
+        case RGB_IND_CAPS_LOCK_HD:
+            if (record->event.pressed) {
+                caps_lock_indicator_decrease_hue();
+            }
+            return false;
+        case RGB_IND_CAPS_LOCK_SI:
+            if (record->event.pressed) {
+                caps_lock_indicator_increase_sat();
+            }
+            return false;
+        case RGB_IND_CAPS_LOCK_SD:
+            if (record->event.pressed) {
+                caps_lock_indicator_decrease_sat();
+            }
+            return false;
+        case RGB_IND_CAPS_LOCK_VI:
+            if (record->event.pressed) {
+                caps_lock_indicator_increase_val();
+            }
+            return false;
+        case RGB_IND_CAPS_LOCK_VD:
+            if (record->event.pressed) {
+                caps_lock_indicator_decrease_val();
+            }                
+            return false;  
         case RGB_IND_SCROLL_LOCK_TOG:
             if (record->event.pressed) {
                 scroll_lock_indicator_toggle();
@@ -807,6 +1379,46 @@ bool process_rgb_indicators(uint16_t keycode, keyrecord_t *record) {
                 scroll_lock_indicator_mode_step_reverse();
             }
             return false;
+        case RGB_IND_SCROLL_LOCK_LF:
+            if (record->event.pressed) {
+                scroll_lock_indicator_led_step();
+            }
+            return false;
+        case RGB_IND_SCROLL_LOCK_LR:
+            if (record->event.pressed) {
+                scroll_lock_indicator_led_reverse();
+            }
+            return false;
+        case RGB_IND_SCROLL_LOCK_HI:
+            if (record->event.pressed) {
+                scroll_lock_indicator_increase_hue();
+            }
+            return false;
+        case RGB_IND_SCROLL_LOCK_HD:
+            if (record->event.pressed) {
+                scroll_lock_indicator_decrease_hue();
+            }
+            return false;
+        case RGB_IND_SCROLL_LOCK_SI:
+            if (record->event.pressed) {
+                scroll_lock_indicator_increase_sat();
+            }
+            return false;
+        case RGB_IND_SCROLL_LOCK_SD:
+            if (record->event.pressed) {
+                scroll_lock_indicator_decrease_sat();
+            }
+            return false;
+        case RGB_IND_SCROLL_LOCK_VI:
+            if (record->event.pressed) {
+                scroll_lock_indicator_increase_val();
+            }
+            return false;
+        case RGB_IND_SCROLL_LOCK_VD:
+            if (record->event.pressed) {
+                scroll_lock_indicator_decrease_val();
+            }                
+            return false; 
     }
     return true;
 }

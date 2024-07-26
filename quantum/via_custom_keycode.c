@@ -199,6 +199,174 @@ bool process_via_custom_keycode(uint16_t keycode, keyrecord_t *record) {
             return false;
 #endif
 
+#if defined(RGB_INDICATORS_ENABLE) && defined(DYNAMIC_RGB_INDICATORS_ENABLE)
+        case NUM_TOG:
+            if (record->event.pressed) {
+                num_lock_indicator_toggle();
+            }
+            return false;
+        case NUM_MF:
+            if (record->event.pressed) {
+                num_lock_indicator_mode_step();
+            }
+            return false;
+        case NUM_MR:
+            if (record->event.pressed) {
+                num_lock_indicator_mode_step_reverse();
+            }
+            return false;
+        case NUM_LF:
+            if (record->event.pressed) {
+                num_lock_indicator_led_step();
+            }
+            return false;
+        case NUM_LR:
+            if (record->event.pressed) {
+                num_lock_indicator_led_reverse();
+            }
+            return false;
+        case NUM_HI:
+            if (record->event.pressed) {
+                num_lock_indicator_increase_hue();
+            }
+            return false;
+        case NUM_HD:
+            if (record->event.pressed) {
+                num_lock_indicator_decrease_hue();
+            }
+            return false;
+        case NUM_SI:
+            if (record->event.pressed) {
+                num_lock_indicator_increase_sat();
+            }
+            return false;
+        case NUM_SD:
+            if (record->event.pressed) {
+                num_lock_indicator_decrease_sat();
+            }
+            return false;
+        case NUM_VI:
+            if (record->event.pressed) {
+                num_lock_indicator_increase_val();
+            }
+            return false;
+        case NUM_VD:
+            if (record->event.pressed) {
+                num_lock_indicator_decrease_val();
+            }                
+            return false;            
+        case CAPS_TOG:
+            if (record->event.pressed) {
+                caps_lock_indicator_toggle();
+            }
+            return false;
+        case CAPS_MF:
+            if (record->event.pressed) {
+                caps_lock_indicator_mode_step();
+            }
+            return false;
+        case CAPS_MR:
+            if (record->event.pressed) {
+                caps_lock_indicator_mode_step_reverse();
+            }
+            return false;
+        case CAPS_LF:
+            if (record->event.pressed) {
+                caps_lock_indicator_led_step();
+            }
+            return false;
+        case CAPS_LR:
+            if (record->event.pressed) {
+                caps_lock_indicator_led_reverse();
+            }
+            return false;
+        case CAPS_HI:
+            if (record->event.pressed) {
+                caps_lock_indicator_increase_hue();
+            }
+            return false;
+        case CAPS_HD:
+            if (record->event.pressed) {
+                caps_lock_indicator_decrease_hue();
+            }
+            return false;
+        case CAPS_SI:
+            if (record->event.pressed) {
+                caps_lock_indicator_increase_sat();
+            }
+            return false;
+        case CAPS_SD:
+            if (record->event.pressed) {
+                caps_lock_indicator_decrease_sat();
+            }
+            return false;
+        case CAPS_VI:
+            if (record->event.pressed) {
+                caps_lock_indicator_increase_val();
+            }
+            return false;
+        case CAPS_VD:
+            if (record->event.pressed) {
+                caps_lock_indicator_decrease_val();
+            }                
+            return false;  
+        case SCROLL_TOG:
+            if (record->event.pressed) {
+                scroll_lock_indicator_toggle();
+            }
+            return false;
+        case SCROLL_MF:
+            if (record->event.pressed) {
+                scroll_lock_indicator_mode_step();
+            }
+            return false;
+        case SCROLL_MR:
+            if (record->event.pressed) {
+                scroll_lock_indicator_mode_step_reverse();
+            }
+            return false;
+        case SCROLL_LF:
+            if (record->event.pressed) {
+                scroll_lock_indicator_led_step();
+            }
+            return false;
+        case SCROLL_LR:
+            if (record->event.pressed) {
+                scroll_lock_indicator_led_reverse();
+            }
+            return false;
+        case SCROLL_HI:
+            if (record->event.pressed) {
+                scroll_lock_indicator_increase_hue();
+            }
+            return false;
+        case SCROLL_HD:
+            if (record->event.pressed) {
+                scroll_lock_indicator_decrease_hue();
+            }
+            return false;
+        case SCROLL_SI:
+            if (record->event.pressed) {
+                scroll_lock_indicator_increase_sat();
+            }
+            return false;
+        case SCROLL_SD:
+            if (record->event.pressed) {
+                scroll_lock_indicator_decrease_sat();
+            }
+            return false;
+        case SCROLL_VI:
+            if (record->event.pressed) {
+                scroll_lock_indicator_increase_val();
+            }
+            return false;
+        case SCROLL_VD:
+            if (record->event.pressed) {
+                scroll_lock_indicator_decrease_val();
+            }                
+            return false;
+
+#endif
     }
     return true;
 }
