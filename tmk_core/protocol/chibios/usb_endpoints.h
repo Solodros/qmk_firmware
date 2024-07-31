@@ -139,11 +139,11 @@ typedef enum {
 #if defined(RAW_ENABLE)
     USB_ENDPOINT_OUT_RAW,
 #endif
-#if defined(MIDI_ENABLE)
-    USB_ENDPOINT_OUT_MIDI,
-#endif
 #if defined(HIDRGB_PROTOCOL_ENABLE)
     USB_ENDPOINT_OUT_HIDRGB,
+#endif
+#if defined(MIDI_ENABLE)
+    USB_ENDPOINT_OUT_MIDI,
 #endif
 #if defined(VIRTSER_ENABLE)
     USB_ENDPOINT_OUT_CDC_DATA,

@@ -237,10 +237,10 @@ void host_digitizer_send(digitizer_t *digitizer) {
 __attribute__((weak)) void send_digitizer(report_digitizer_t *report) {}
 
 #ifdef RADIAL_CONTROLLER_ENABLE
-void host_radial_send(uint16_t data) {
+void host_radial_send(uint16_t usage) {
     report_radial_t report = {
         .report_id = REPORT_ID_RADIAL,
-        .usage     = data,
+        .usage     = usage,
     };
     send_radial(&report);
 }
