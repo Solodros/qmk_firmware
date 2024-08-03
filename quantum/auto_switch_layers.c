@@ -25,7 +25,8 @@ system_layers_t system_layers;
 #endif
 
 #ifndef DEFAULT_MACOS_LAYER
-#    define DEFAULT_MACOS_LAYER 2
+//#    define DEFAULT_MACOS_LAYER 2
+#    define DEFAULT_MACOS_LAYER (MAX_LAYER - 1)
 #endif
 
 #ifndef DEFAULT_WINDOWS_FN_KEY_POS

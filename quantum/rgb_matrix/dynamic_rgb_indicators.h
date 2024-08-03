@@ -20,15 +20,15 @@
 #include "via.h"
 
 typedef struct __attribute__((packed)) {
-        uint8_t enable : 1;
-        uint8_t all_led: 1;
-        uint8_t key_led: 1;
-        uint8_t underglow_led : 1;
-        uint8_t logo_led : 1;
-        uint8_t mode : 3;
-        uint8_t led;
-        HSV hsv;
-} rgb_indicators_config_t;
+        uint8_t enable : 1;         //1 bit
+        uint8_t all_led: 1;         // 1 bit
+        uint8_t key_led: 1;         // 1 bit
+        uint8_t underglow_led : 1;  // 1 bit
+        uint8_t logo_led : 1;       // 1 bit
+        uint8_t mode : 3;           // 3 bits
+        uint8_t led;                // 1 byte
+        HSV hsv;                    // 3 bytes
+} rgb_indicators_config_t; //1+1+1+1+1+3bit = 1byte + 1 +3 =5 bytes
 
 
 
@@ -47,7 +47,11 @@ typedef struct {
     rgb_indicators_config_t num_lock_config;
     rgb_indicators_config_t caps_lock_config;
     rgb_indicators_config_t scroll_lock_config;
-} all_rgb_indicators_config_t;
+    rgb_indicators_config_t layer_1_config;
+    rgb_indicators_config_t layer_2_config;
+    rgb_indicators_config_t layer_3_config;
+    rgb_indicators_config_t layer_4_config;
+} all_rgb_indicators_config_t;//rgb_indicators_config_t = 5 bytes * 7项 = 35 bytes，eeconfig占用35字节
 
 typedef union {
     uint8_t raw;
@@ -55,7 +59,11 @@ typedef union {
         uint8_t num_lock : 1;
         uint8_t caps_lock : 1;
         uint8_t scroll_lock : 1;
-        uint8_t reserved : 5;
+        uint8_t layer_1 : 1;
+        uint8_t layer_2 : 1;
+        uint8_t layer_3 : 1;
+        uint8_t layer_4 : 1;
+        uint8_t reserved : 1;//位字段的总大小需要对齐到字节边界。num_lock、caps_lock、scroll_lock 占用 3 位，reserved 占用剩下的 5 位，使得总大小为 8 位（1 字节）。这可以确保结构体大小为 1 字节，并且与 raw 字段的大小一致
     };
 } rgb_indicator_t;
 
@@ -76,7 +84,16 @@ uint8_t is_rgb_indicator_enabled(uint8_t indicator);
 uint8_t is_num_lock_enabled(void);
 uint8_t is_caps_lock_enabled(void);
 uint8_t is_scroll_lock_enabled(void);
+uint8_t is_layer_1_enabled(void);
+uint8_t is_layer_2_enabled(void);
+uint8_t is_layer_3_enabled(void);
+uint8_t is_layer_4_enabled(void);
+
 void num_lock_indicator_toggle(void);
+void layer_1_indicator_toggle(void);
+void layer_2_indicator_toggle(void);
+void layer_3_indicator_toggle(void);
+void layer_4_indicator_toggle(void);
 void caps_lock_indicator_toggle(void);
 void scroll_lock_indicator_toggle(void);
 void rgb_indicators_mode_step(void);

@@ -23,7 +23,8 @@
 #endif
 
 #ifndef DEFAULT_MACOS_FN_LAYER
-#    define DEFAULT_MACOS_FN_LAYER 3
+//#    define DEFAULT_MACOS_FN_LAYER 3
+#    define DEFAULT_MACOS_FN_LAYER 1
 #endif
 
 #define WINDOWS_FN DEFAULT_WINDOWS_FN_LAYER

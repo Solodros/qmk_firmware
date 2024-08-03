@@ -146,6 +146,180 @@
 #define DEFAULT_SCROLL_LOCK_HSV {120, 255, DYNAMIC_RGB_INDICATORS_DEFAULT_VAL}
 #endif
 
+#ifdef DEFAULT_LAYER_1_ENABLE 
+#define DEFAULT_LAYER_1_ENABLE_VAL 1
+#else
+#define DEFAULT_LAYER_1_ENABLE_VAL 0
+#endif
+
+#ifdef DEFAULT_LAYER_1_ALL_LED
+#define DEFAULT_LAYER_1_ALL_LED_VAL 1
+#else
+#define DEFAULT_LAYER_1_ALL_LED_VAL 0
+#endif
+
+#ifdef DEFAULT_LAYER_1_KEY_LED
+#define DEFAULT_LAYER_1_KEY_LED_VAL 1
+#else
+#define DEFAULT_LAYER_1_KEY_LED_VAL 0
+#endif
+
+#ifdef DEFAULT_LAYER_1_UNDERGLOW_LED
+#define DEFAULT_LAYER_1_UNDERGLOW_LED_VAL 1
+#else
+#define DEFAULT_LAYER_1_UNDERGLOW_LED_VAL 0
+#endif
+
+#ifndef DEFAULT_LAYER_1_MODE
+#define DEFAULT_LAYER_1_MODE 1
+#endif
+
+#ifdef DEFAULT_LAYER_1_LOGO_LED
+#define DEFAULT_LAYER_1_LOGO_LED_VAL 1
+#else
+#define DEFAULT_LAYER_1_LOGO_LED_VAL 0
+#endif
+
+#ifndef DEFAULT_LAYER_1_LED
+#define DEFAULT_LAYER_1_LED 0
+#endif
+
+#ifndef DEFAULT_LAYER_1_HSV
+#define DEFAULT_LAYER_1_HSV {0, 255, DYNAMIC_RGB_INDICATORS_DEFAULT_VAL}
+#endif
+
+// 下面是LAYER_2的设置
+
+#ifdef DEFAULT_LAYER_2_ENABLE 
+#define DEFAULT_LAYER_2_ENABLE_VAL 1
+#else
+#define DEFAULT_LAYER_2_ENABLE_VAL 0
+#endif
+
+#ifdef DEFAULT_LAYER_2_ALL_LED
+#define DEFAULT_LAYER_2_ALL_LED_VAL 1
+#else
+#define DEFAULT_LAYER_2_ALL_LED_VAL 0
+#endif
+
+#ifdef DEFAULT_LAYER_2_KEY_LED
+#define DEFAULT_LAYER_2_KEY_LED_VAL 1
+#else
+#define DEFAULT_LAYER_2_KEY_LED_VAL 0
+#endif
+
+#ifdef DEFAULT_LAYER_2_UNDERGLOW_LED
+#define DEFAULT_LAYER_2_UNDERGLOW_LED_VAL 1
+#else
+#define DEFAULT_LAYER_2_UNDERGLOW_LED_VAL 0
+#endif
+
+#ifndef DEFAULT_LAYER_2_MODE
+#define DEFAULT_LAYER_2_MODE 1
+#endif
+
+#ifdef DEFAULT_LAYER_2_LOGO_LED
+#define DEFAULT_LAYER_2_LOGO_LED_VAL 1
+#else
+#define DEFAULT_LAYER_2_LOGO_LED_VAL 0
+#endif
+
+#ifndef DEFAULT_LAYER_2_LED
+#define DEFAULT_LAYER_2_LED 0
+#endif
+
+#ifndef DEFAULT_LAYER_2_HSV
+#define DEFAULT_LAYER_2_HSV {0, 255, DYNAMIC_RGB_INDICATORS_DEFAULT_VAL}
+#endif
+
+// 下面是LAYER_3的设置
+
+#ifdef DEFAULT_LAYER_3_ENABLE 
+#define DEFAULT_LAYER_3_ENABLE_VAL 1
+#else
+#define DEFAULT_LAYER_3_ENABLE_VAL 0
+#endif
+
+#ifdef DEFAULT_LAYER_3_ALL_LED
+#define DEFAULT_LAYER_3_ALL_LED_VAL 1
+#else
+#define DEFAULT_LAYER_3_ALL_LED_VAL 0
+#endif
+
+#ifdef DEFAULT_LAYER_3_KEY_LED
+#define DEFAULT_LAYER_3_KEY_LED_VAL 1
+#else
+#define DEFAULT_LAYER_3_KEY_LED_VAL 0
+#endif
+
+#ifdef DEFAULT_LAYER_3_UNDERGLOW_LED
+#define DEFAULT_LAYER_3_UNDERGLOW_LED_VAL 1
+#else
+#define DEFAULT_LAYER_3_UNDERGLOW_LED_VAL 0
+#endif
+
+#ifndef DEFAULT_LAYER_3_MODE
+#define DEFAULT_LAYER_3_MODE 1
+#endif
+
+#ifdef DEFAULT_LAYER_3_LOGO_LED
+#define DEFAULT_LAYER_3_LOGO_LED_VAL 1
+#else
+#define DEFAULT_LAYER_3_LOGO_LED_VAL 0
+#endif
+
+#ifndef DEFAULT_LAYER_3_LED
+#define DEFAULT_LAYER_3_LED 0
+#endif
+
+#ifndef DEFAULT_LAYER_3_HSV
+#define DEFAULT_LAYER_3_HSV {0, 255, DYNAMIC_RGB_INDICATORS_DEFAULT_VAL}
+#endif
+
+// 下面是LAYER_4的设置
+
+#ifdef DEFAULT_LAYER_4_ENABLE 
+#define DEFAULT_LAYER_4_ENABLE_VAL 1
+#else
+#define DEFAULT_LAYER_4_ENABLE_VAL 0
+#endif
+
+#ifdef DEFAULT_LAYER_4_ALL_LED
+#define DEFAULT_LAYER_4_ALL_LED_VAL 1
+#else
+#define DEFAULT_LAYER_4_ALL_LED_VAL 0
+#endif
+
+#ifdef DEFAULT_LAYER_4_KEY_LED
+#define DEFAULT_LAYER_4_KEY_LED_VAL 1
+#else
+#define DEFAULT_LAYER_4_KEY_LED_VAL 0
+#endif
+
+#ifdef DEFAULT_LAYER_4_UNDERGLOW_LED
+#define DEFAULT_LAYER_4_UNDERGLOW_LED_VAL 1
+#else
+#define DEFAULT_LAYER_4_UNDERGLOW_LED_VAL 0
+#endif
+
+#ifndef DEFAULT_LAYER_4_MODE
+#define DEFAULT_LAYER_4_MODE 1
+#endif
+
+#ifdef DEFAULT_LAYER_4_LOGO_LED
+#define DEFAULT_LAYER_4_LOGO_LED_VAL 1
+#else
+#define DEFAULT_LAYER_4_LOGO_LED_VAL 0
+#endif
+
+#ifndef DEFAULT_LAYER_4_LED
+#define DEFAULT_LAYER_4_LED 0
+#endif
+
+#ifndef DEFAULT_LAYER_4_HSV
+#define DEFAULT_LAYER_4_HSV {0, 255, DYNAMIC_RGB_INDICATORS_DEFAULT_VAL}
+#endif
+
 
 static const uint8_t rgb_indicators_effect_index[] = {
 // to enable mode step reverse (uint8_t >= 0)
@@ -175,11 +349,11 @@ static const uint8_t rgb_indicators_effect_index[] = {
 };
 
 static const uint8_t rgb_indicators_effect_num = sizeof(rgb_indicators_effect_index) / sizeof(uint8_t);
-static all_rgb_indicators_config_t rgb_indicators_config = {{0}, {0}, {0}};
+static all_rgb_indicators_config_t rgb_indicators_config = {{0}, {0}, {0}, {0}, {0}, {0}, {0}};
 static rgb_indicator_t rgb_indicators_state;
 
 #ifdef ENABLE_RGB_INDICATORS_RANDOM_ONCE
-static uint8_t changed[3] = {0};
+static uint8_t changed[7] = {0};
 #endif
 
 EECONFIG_DEBOUNCE_HELPER(dynamic_rgb_indicators, EECONFIG_RGB_INDICATORS, rgb_indicators_config);
@@ -189,7 +363,7 @@ void update_dynamic_rgb_indicators(void) {
 }
 
 static void update_dynamic_rgb_indicators_default(void) {
-    HSV tmp_hsv[3] = {DEFAULT_NUM_LOCK_HSV, DEFAULT_CAPS_LOCK_HSV, DEFAULT_SCROLL_LOCK_HSV};
+    HSV tmp_hsv[7] = {DEFAULT_NUM_LOCK_HSV, DEFAULT_CAPS_LOCK_HSV, DEFAULT_SCROLL_LOCK_HSV, DEFAULT_LAYER_1_HSV, DEFAULT_LAYER_2_HSV, DEFAULT_LAYER_3_HSV, DEFAULT_LAYER_4_HSV,};
     rgb_indicators_config.num_lock_config.enable = DEFAULT_NUM_LOCK_ENABLE_VAL;
     rgb_indicators_config.num_lock_config.all_led = DEFAULT_NUM_LOCK_ALL_LED_VAL;
     rgb_indicators_config.num_lock_config.key_led = DEFAULT_NUM_LOCK_KEY_LED_VAL;
@@ -217,6 +391,42 @@ static void update_dynamic_rgb_indicators_default(void) {
     rgb_indicators_config.scroll_lock_config.led = DEFAULT_SCROLL_LOCK_LED;
     rgb_indicators_config.scroll_lock_config.hsv = tmp_hsv[2];
 
+    rgb_indicators_config.layer_1_config.enable = DEFAULT_LAYER_1_ENABLE_VAL;
+    rgb_indicators_config.layer_1_config.all_led = DEFAULT_LAYER_1_ALL_LED_VAL;
+    rgb_indicators_config.layer_1_config.key_led = DEFAULT_LAYER_1_KEY_LED_VAL;
+    rgb_indicators_config.layer_1_config.underglow_led = DEFAULT_LAYER_1_UNDERGLOW_LED_VAL;
+    rgb_indicators_config.layer_1_config.logo_led = DEFAULT_LAYER_1_LOGO_LED_VAL;
+    rgb_indicators_config.layer_1_config.mode = DEFAULT_LAYER_1_MODE;
+    rgb_indicators_config.layer_1_config.led = DEFAULT_LAYER_1_LED;
+    rgb_indicators_config.layer_1_config.hsv = tmp_hsv[3];
+
+    rgb_indicators_config.layer_2_config.enable = DEFAULT_LAYER_2_ENABLE_VAL;
+    rgb_indicators_config.layer_2_config.all_led = DEFAULT_LAYER_2_ALL_LED_VAL;
+    rgb_indicators_config.layer_2_config.key_led = DEFAULT_LAYER_2_KEY_LED_VAL;
+    rgb_indicators_config.layer_2_config.underglow_led = DEFAULT_LAYER_2_UNDERGLOW_LED_VAL;
+    rgb_indicators_config.layer_2_config.logo_led = DEFAULT_LAYER_2_LOGO_LED_VAL;
+    rgb_indicators_config.layer_2_config.mode = DEFAULT_LAYER_2_MODE;
+    rgb_indicators_config.layer_2_config.led = DEFAULT_LAYER_2_LED;
+    rgb_indicators_config.layer_2_config.hsv = tmp_hsv[4];
+
+    rgb_indicators_config.layer_3_config.enable = DEFAULT_LAYER_3_ENABLE_VAL;
+    rgb_indicators_config.layer_3_config.all_led = DEFAULT_LAYER_3_ALL_LED_VAL;
+    rgb_indicators_config.layer_3_config.key_led = DEFAULT_LAYER_3_KEY_LED_VAL;
+    rgb_indicators_config.layer_3_config.underglow_led = DEFAULT_LAYER_3_UNDERGLOW_LED_VAL;
+    rgb_indicators_config.layer_3_config.logo_led = DEFAULT_LAYER_3_LOGO_LED_VAL;
+    rgb_indicators_config.layer_3_config.mode = DEFAULT_LAYER_3_MODE;
+    rgb_indicators_config.layer_3_config.led = DEFAULT_LAYER_3_LED;
+    rgb_indicators_config.layer_3_config.hsv = tmp_hsv[5];
+
+    rgb_indicators_config.layer_4_config.enable = DEFAULT_LAYER_4_ENABLE_VAL;
+    rgb_indicators_config.layer_4_config.all_led = DEFAULT_LAYER_4_ALL_LED_VAL;
+    rgb_indicators_config.layer_4_config.key_led = DEFAULT_LAYER_4_KEY_LED_VAL;
+    rgb_indicators_config.layer_4_config.underglow_led = DEFAULT_LAYER_4_UNDERGLOW_LED_VAL;
+    rgb_indicators_config.layer_4_config.logo_led = DEFAULT_LAYER_4_LOGO_LED_VAL;
+    rgb_indicators_config.layer_4_config.mode = DEFAULT_LAYER_4_MODE;
+    rgb_indicators_config.layer_4_config.led = DEFAULT_LAYER_4_LED;
+    rgb_indicators_config.layer_4_config.hsv = tmp_hsv[6];
+
     update_dynamic_rgb_indicators();
 }
 
@@ -236,10 +446,15 @@ void rgb_indicators_state_update(void) {
     rgb_indicators_state.num_lock = host_keyboard_led_state().num_lock;
     rgb_indicators_state.caps_lock = host_keyboard_led_state().caps_lock;
     rgb_indicators_state.scroll_lock = host_keyboard_led_state().scroll_lock;
+    rgb_indicators_state.layer_1 =  layer_state_is(1);
+    rgb_indicators_state.layer_2 =  layer_state_is(2); 
+    rgb_indicators_state.layer_3 =  layer_state_is(3);
+    rgb_indicators_state.layer_4 =  layer_state_is(4);
 }
 
 uint8_t is_rgb_indicators_enabled(void) {
-    return (rgb_indicators_config.num_lock_config.enable || rgb_indicators_config.caps_lock_config.enable || rgb_indicators_config.scroll_lock_config.enable);
+    return (rgb_indicators_config.num_lock_config.enable || rgb_indicators_config.caps_lock_config.enable || rgb_indicators_config.scroll_lock_config.enable || 
+            rgb_indicators_config.layer_1_config.enable || rgb_indicators_config.layer_2_config.enable || rgb_indicators_config.layer_3_config.enable || rgb_indicators_config.layer_4_config.enable);
 }
 
 uint8_t is_rgb_indicator_enabled(uint8_t indicator) {
@@ -247,6 +462,10 @@ uint8_t is_rgb_indicator_enabled(uint8_t indicator) {
         case 0: return (rgb_indicators_config.num_lock_config.enable);
         case 1: return (rgb_indicators_config.caps_lock_config.enable);
         case 2: return (rgb_indicators_config.scroll_lock_config.enable);
+        case 3: return (rgb_indicators_config.layer_1_config.enable);
+        case 4: return (rgb_indicators_config.layer_2_config.enable);
+        case 5: return (rgb_indicators_config.layer_3_config.enable);
+        case 6: return (rgb_indicators_config.layer_4_config.enable);
         default: break;
     }
     return 0;
@@ -262,6 +481,22 @@ uint8_t is_caps_lock_enabled(void) {
 
 uint8_t is_scroll_lock_enabled(void) {
     return (rgb_indicators_config.scroll_lock_config.enable);
+}
+
+uint8_t is_layer_1_enabled(void) {
+    return (rgb_indicators_config.layer_1_config.enable);
+}
+
+uint8_t is_layer_2_enabled(void) {
+    return (rgb_indicators_config.layer_2_config.enable);
+}
+
+uint8_t is_layer_3_enabled(void) {
+    return (rgb_indicators_config.layer_3_config.enable);
+}
+
+uint8_t is_layer_4_enabled(void) {
+    return (rgb_indicators_config.layer_4_config.enable);
 }
 
 static void rgb_indicator_render(uint8_t mode, uint8_t indicator) {
@@ -292,8 +527,15 @@ static void rgb_indicators_render(void) {
         rgb_indicator_render(rgb_indicators_config.caps_lock_config.mode, 1);
     if (is_scroll_lock_enabled())
         rgb_indicator_render(rgb_indicators_config.scroll_lock_config.mode, 2);
+    if (is_layer_1_enabled())
+        rgb_indicator_render(rgb_indicators_config.layer_1_config.mode, 3);
+    if (is_layer_2_enabled())
+        rgb_indicator_render(rgb_indicators_config.layer_2_config.mode, 4);
+    if (is_layer_3_enabled())
+        rgb_indicator_render(rgb_indicators_config.layer_3_config.mode, 5);
+    if (is_layer_4_enabled())
+        rgb_indicator_render(rgb_indicators_config.layer_4_config.mode, 6);
 }
-
 void rgb_indicators_task(void) {
     if (is_rgb_indicators_enabled()) {
         rgb_indicators_state_update();
@@ -374,6 +616,33 @@ void scroll_lock_indicator_mode_step_reverse(void) {
 }
 */
 
+void layer_1_indicator_toggle(void) {
+    if (rgb_matrix_is_enabled()) {
+        rgb_indicators_config.layer_1_config.enable ^= 1;
+        update_dynamic_rgb_indicators();
+    }
+}
+
+void layer_2_indicator_toggle(void) {
+    if (rgb_matrix_is_enabled()) {
+        rgb_indicators_config.layer_2_config.enable ^= 1;
+        update_dynamic_rgb_indicators();
+    }
+}
+
+void layer_3_indicator_toggle(void) {
+    if (rgb_matrix_is_enabled()) {
+        rgb_indicators_config.layer_3_config.enable ^= 1;
+        update_dynamic_rgb_indicators();
+    }
+}
+
+void layer_4_indicator_toggle(void) {
+    if (rgb_matrix_is_enabled()) {
+        rgb_indicators_config.layer_4_config.enable ^= 1;
+        update_dynamic_rgb_indicators();
+    }
+}
 void rgb_indicators_mode_step(void) {
 
     uint8_t indicator = rgb_indicators_get_indicator();
@@ -545,6 +814,10 @@ void rgb_indicators_enable(uint8_t indicator, bool update) {
         case 0: rgb_indicators_config.num_lock_config.enable = 1; break;
         case 1: rgb_indicators_config.caps_lock_config.enable = 1; break;
         case 2: rgb_indicators_config.scroll_lock_config.enable = 1; break;
+        case 3: rgb_indicators_config.layer_1_config.enable = 1; break;
+        case 4: rgb_indicators_config.layer_2_config.enable = 1; break;
+        case 5: rgb_indicators_config.layer_3_config.enable = 1; break;
+        case 6: rgb_indicators_config.layer_4_config.enable = 1; break;
         default: break;
     }
     if (update)
@@ -556,6 +829,10 @@ void rgb_indicators_disable(uint8_t indicator, bool update) {
         case 0: rgb_indicators_config.num_lock_config.enable = 0; break;
         case 1: rgb_indicators_config.caps_lock_config.enable = 0; break;
         case 2: rgb_indicators_config.scroll_lock_config.enable = 0; break;
+        case 3: rgb_indicators_config.layer_1_config.enable = 0; break;
+        case 4: rgb_indicators_config.layer_2_config.enable = 0; break;
+        case 5: rgb_indicators_config.layer_3_config.enable = 0; break;
+        case 6: rgb_indicators_config.layer_4_config.enable = 0; break;
         default: break;
     }
     if (update)
@@ -567,6 +844,10 @@ void rgb_indicators_enable_all_led(uint8_t indicator, uint8_t enable, bool updat
         case 0: rgb_indicators_config.num_lock_config.all_led = enable; break;
         case 1: rgb_indicators_config.caps_lock_config.all_led = enable; break;
         case 2: rgb_indicators_config.scroll_lock_config.all_led = enable; break;
+        case 3: rgb_indicators_config.layer_1_config.all_led = enable; break;
+        case 4: rgb_indicators_config.layer_2_config.all_led = enable; break;
+        case 5: rgb_indicators_config.layer_3_config.all_led = enable; break;
+        case 6: rgb_indicators_config.layer_4_config.all_led = enable; break;
         default: break;
     }
     if (update)
@@ -578,6 +859,10 @@ void rgb_indicators_enable_key_led(uint8_t indicator, uint8_t enable, bool updat
         case 0: rgb_indicators_config.num_lock_config.key_led = enable; break;
         case 1: rgb_indicators_config.caps_lock_config.key_led = enable; break;
         case 2: rgb_indicators_config.scroll_lock_config.key_led = enable; break;
+        case 3: rgb_indicators_config.layer_1_config.key_led = enable; break;
+        case 4: rgb_indicators_config.layer_2_config.key_led = enable; break;
+        case 5: rgb_indicators_config.layer_3_config.key_led = enable; break;
+        case 6: rgb_indicators_config.layer_4_config.key_led = enable; break;
         default: break;
     }
     if (update)
@@ -589,6 +874,10 @@ void rgb_indicators_enable_underglow_led(uint8_t indicator, uint8_t enable, bool
         case 0: rgb_indicators_config.num_lock_config.underglow_led = enable; break;
         case 1: rgb_indicators_config.caps_lock_config.underglow_led = enable; break;
         case 2: rgb_indicators_config.scroll_lock_config.underglow_led = enable; break;
+        case 3: rgb_indicators_config.layer_1_config.underglow_led = enable; break;
+        case 4: rgb_indicators_config.layer_2_config.underglow_led = enable; break;
+        case 5: rgb_indicators_config.layer_3_config.underglow_led = enable; break;
+        case 6: rgb_indicators_config.layer_4_config.underglow_led = enable; break;
         default: break;
     }
     if (update)
@@ -600,6 +889,10 @@ void rgb_indicators_enable_logo_led(uint8_t indicator, uint8_t enable, bool upda
         case 0: rgb_indicators_config.num_lock_config.logo_led = enable; break;
         case 1: rgb_indicators_config.caps_lock_config.logo_led = enable; break;
         case 2: rgb_indicators_config.scroll_lock_config.logo_led = enable; break;
+        case 3: rgb_indicators_config.layer_1_config.logo_led = enable; break;
+        case 4: rgb_indicators_config.layer_2_config.logo_led = enable; break;
+        case 5: rgb_indicators_config.layer_3_config.logo_led = enable; break;
+        case 6: rgb_indicators_config.layer_4_config.logo_led = enable; break;
         default: break;
     }
     if (update)
@@ -611,6 +904,10 @@ void rgb_indicators_set_mode(uint8_t indicator, uint8_t mod, bool update) {
         case 0: rgb_indicators_config.num_lock_config.mode = mod; break;
         case 1: rgb_indicators_config.caps_lock_config.mode = mod; break;
         case 2: rgb_indicators_config.scroll_lock_config.mode = mod; break;
+        case 3: rgb_indicators_config.layer_1_config.mode = mod; break;
+        case 4: rgb_indicators_config.layer_2_config.mode = mod; break;
+        case 5: rgb_indicators_config.layer_3_config.mode = mod; break;
+        case 6: rgb_indicators_config.layer_4_config.mode = mod; break;    
         default: break;
     }
     if (update)
@@ -622,6 +919,10 @@ void rgb_indicators_set_led(uint8_t indicator, uint8_t led, bool update) {
         case 0: rgb_indicators_config.num_lock_config.led = led; break;
         case 1: rgb_indicators_config.caps_lock_config.led = led; break;
         case 2: rgb_indicators_config.scroll_lock_config.led = led; break;
+        case 3: rgb_indicators_config.layer_1_config.led = led; break;
+        case 4: rgb_indicators_config.layer_2_config.led = led; break;
+        case 5: rgb_indicators_config.layer_3_config.led = led; break;
+        case 6: rgb_indicators_config.layer_4_config.led = led; break;
         default: break;
     }
     if (update)
@@ -633,22 +934,43 @@ void rgb_indicators_set_hsv(uint8_t indicator, uint8_t hue, uint8_t sat, uint8_t
         case 0: {
             rgb_indicators_config.num_lock_config.hsv.h = hue;
             rgb_indicators_config.num_lock_config.hsv.s = sat;
-//            rgb_indicators_config.num_lock_config.hsv.v = val;
           rgb_indicators_config.num_lock_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val; 
             break;
         }
         case 1: {
             rgb_indicators_config.caps_lock_config.hsv.h = hue;
             rgb_indicators_config.caps_lock_config.hsv.s = sat;
-//            rgb_indicators_config.caps_lock_config.hsv.v = val;
           rgb_indicators_config.caps_lock_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val; 
             break;
         }
         case 2: {
             rgb_indicators_config.scroll_lock_config.hsv.h = hue;
             rgb_indicators_config.scroll_lock_config.hsv.s = sat;
- //           rgb_indicators_config.scroll_lock_config.hsv.v = val;
            rgb_indicators_config.scroll_lock_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val; 
+            break;
+        }
+        case 3: {
+            rgb_indicators_config.layer_1_config.hsv.h = hue;
+            rgb_indicators_config.layer_1_config.hsv.s = sat;
+            rgb_indicators_config.layer_1_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val;
+            break;
+        }
+        case 4: {
+            rgb_indicators_config.layer_2_config.hsv.h = hue;
+            rgb_indicators_config.layer_2_config.hsv.s = sat;
+            rgb_indicators_config.layer_2_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val;
+            break;
+        }
+        case 5: {
+            rgb_indicators_config.layer_3_config.hsv.h = hue;
+            rgb_indicators_config.layer_3_config.hsv.s = sat;
+            rgb_indicators_config.layer_3_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val;
+            break;
+        }
+        case 6: {
+            rgb_indicators_config.layer_4_config.hsv.h = hue;
+            rgb_indicators_config.layer_4_config.hsv.s = sat;
+            rgb_indicators_config.layer_4_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val;
             break;
         }
         default: break;
@@ -671,6 +993,22 @@ void rgb_indicators_set_val(uint8_t indicator, uint8_t val, bool update) {
             rgb_indicators_config.scroll_lock_config.hsv.v =  (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val;
             break;
         }
+        case 3: {
+            rgb_indicators_config.layer_1_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val;
+            break;
+        }
+        case 4: {
+            rgb_indicators_config.layer_2_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val;
+            break;
+        }
+        case 5: {
+            rgb_indicators_config.layer_3_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val;
+            break;
+        }
+        case 6: {
+            rgb_indicators_config.layer_4_config.hsv.v = (val > DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS) ? DYNAMIC_RGB_INDICATORS_MAXIMUM_BRIGHTNESS : val;
+            break;
+        }
         default: break;
     }
     if (update)
@@ -678,20 +1016,28 @@ void rgb_indicators_set_val(uint8_t indicator, uint8_t val, bool update) {
 }
 
 uint8_t rgb_indicators_get_indicator(void) {
-    if (is_num_lock_enabled() && !(is_caps_lock_enabled()) && !(is_scroll_lock_enabled())) {
+    if        (is_num_lock_enabled() && !(is_caps_lock_enabled()) && !(is_scroll_lock_enabled())) {
         return 0;
     } else if (!(is_num_lock_enabled()) && (is_caps_lock_enabled()) && !(is_scroll_lock_enabled())) {
         return 1;
     } else if (!(is_num_lock_enabled()) && !(is_caps_lock_enabled()) && (is_scroll_lock_enabled())) {
-        return 2;
+        return 2;//前三项不判断层，不论在什么层，只要前三指示灯任一开启，优先调前三指示灯
+    } else if ((is_layer_1_enabled()) && !(is_num_lock_enabled()) && !(is_caps_lock_enabled()) && !(is_scroll_lock_enabled())) {
+        return 3;
+    } else if ((is_layer_2_enabled()) && !(is_num_lock_enabled()) && !(is_caps_lock_enabled()) && !(is_scroll_lock_enabled())) {
+        return 4;
+    } else if ((is_layer_3_enabled()) && !(is_num_lock_enabled()) && !(is_caps_lock_enabled()) && !(is_scroll_lock_enabled())) {
+        return 5;
+    } else if ((is_layer_4_enabled()) && !(is_num_lock_enabled()) && !(is_caps_lock_enabled()) && !(is_scroll_lock_enabled())) {
+        return 6;
     } else {
         return 255; // 无效值，表示不满足条件
     }
 }
 
 uint8_t rgb_indicators_get_multiple_led(uint8_t indicator) {
-    return rgb_indicators_get_all_led(indicator) || rgb_indicators_get_key_led(indicator) || \
-            rgb_indicators_get_underglow_led(indicator) || rgb_indicators_get_logo_led(indicator);
+    return rgb_indicators_get_all_led(indicator) || rgb_indicators_get_key_led(indicator) ||
+           rgb_indicators_get_underglow_led(indicator) || rgb_indicators_get_logo_led(indicator);
 }
 
 uint8_t rgb_indicators_get_all_led(uint8_t indicator) {
@@ -699,6 +1045,10 @@ uint8_t rgb_indicators_get_all_led(uint8_t indicator) {
         case 0: return rgb_indicators_config.num_lock_config.all_led;
         case 1: return rgb_indicators_config.caps_lock_config.all_led;
         case 2: return rgb_indicators_config.scroll_lock_config.all_led;
+        case 3: return rgb_indicators_config.layer_1_config.all_led;
+        case 4: return rgb_indicators_config.layer_2_config.all_led;
+        case 5: return rgb_indicators_config.layer_3_config.all_led;
+        case 6: return rgb_indicators_config.layer_4_config.all_led;
         default: return 0;
     }
 }
@@ -708,6 +1058,10 @@ uint8_t rgb_indicators_get_key_led(uint8_t indicator) {
         case 0: return rgb_indicators_config.num_lock_config.key_led;
         case 1: return rgb_indicators_config.caps_lock_config.key_led;
         case 2: return rgb_indicators_config.scroll_lock_config.key_led;
+        case 3: return rgb_indicators_config.layer_1_config.key_led;
+        case 4: return rgb_indicators_config.layer_2_config.key_led;
+        case 5: return rgb_indicators_config.layer_3_config.key_led;
+        case 6: return rgb_indicators_config.layer_4_config.key_led;
         default: return 0;
     }
 }
@@ -717,6 +1071,10 @@ uint8_t rgb_indicators_get_underglow_led(uint8_t indicator) {
         case 0: return rgb_indicators_config.num_lock_config.underglow_led;
         case 1: return rgb_indicators_config.caps_lock_config.underglow_led;
         case 2: return rgb_indicators_config.scroll_lock_config.underglow_led;
+        case 3: return rgb_indicators_config.layer_1_config.underglow_led;
+        case 4: return rgb_indicators_config.layer_2_config.underglow_led;
+        case 5: return rgb_indicators_config.layer_3_config.underglow_led;
+        case 6: return rgb_indicators_config.layer_4_config.underglow_led;
         default: return 0;
     }
 }
@@ -726,6 +1084,10 @@ uint8_t rgb_indicators_get_logo_led(uint8_t indicator) {
         case 0: return rgb_indicators_config.num_lock_config.logo_led;
         case 1: return rgb_indicators_config.caps_lock_config.logo_led;
         case 2: return rgb_indicators_config.scroll_lock_config.logo_led;
+        case 3: return rgb_indicators_config.layer_1_config.logo_led;
+        case 4: return rgb_indicators_config.layer_2_config.logo_led;
+        case 5: return rgb_indicators_config.layer_3_config.logo_led;
+        case 6: return rgb_indicators_config.layer_4_config.logo_led;
         default: return 0;
     }
 }
@@ -735,6 +1097,10 @@ uint8_t rgb_indicators_get_led(uint8_t indicator) {
         case 0: return rgb_indicators_config.num_lock_config.led;
         case 1: return rgb_indicators_config.caps_lock_config.led;
         case 2: return rgb_indicators_config.scroll_lock_config.led;
+        case 3: return rgb_indicators_config.layer_1_config.led;
+        case 4: return rgb_indicators_config.layer_2_config.led;
+        case 5: return rgb_indicators_config.layer_3_config.led;
+        case 6: return rgb_indicators_config.layer_4_config.led;
         default: return 0;
     }
 }
@@ -744,6 +1110,10 @@ uint8_t rgb_indicators_get_mode(uint8_t indicator) {
         case 0: return rgb_indicators_config.num_lock_config.mode;
         case 1: return rgb_indicators_config.caps_lock_config.mode;
         case 2: return rgb_indicators_config.scroll_lock_config.mode;
+        case 3: return rgb_indicators_config.layer_1_config.mode;
+        case 4: return rgb_indicators_config.layer_2_config.mode;
+        case 5: return rgb_indicators_config.layer_3_config.mode;
+        case 6: return rgb_indicators_config.layer_4_config.mode;
         default: return 0;
     }
 }
@@ -753,6 +1123,10 @@ uint8_t rgb_indicators_get_hue(uint8_t indicator) {
         case 0: return rgb_indicators_config.num_lock_config.hsv.h;
         case 1: return rgb_indicators_config.caps_lock_config.hsv.h;
         case 2: return rgb_indicators_config.scroll_lock_config.hsv.h;
+        case 3: return rgb_indicators_config.layer_1_config.hsv.h;
+        case 4: return rgb_indicators_config.layer_2_config.hsv.h;
+        case 5: return rgb_indicators_config.layer_3_config.hsv.h;
+        case 6: return rgb_indicators_config.layer_4_config.hsv.h;
         default: return 0;
     }
 }
@@ -762,6 +1136,10 @@ uint8_t rgb_indicators_get_sat(uint8_t indicator) {
         case 0: return rgb_indicators_config.num_lock_config.hsv.s;
         case 1: return rgb_indicators_config.caps_lock_config.hsv.s;
         case 2: return rgb_indicators_config.scroll_lock_config.hsv.s;
+        case 3: return rgb_indicators_config.layer_1_config.hsv.s;
+        case 4: return rgb_indicators_config.layer_2_config.hsv.s;
+        case 5: return rgb_indicators_config.layer_3_config.hsv.s;
+        case 6: return rgb_indicators_config.layer_4_config.hsv.s;
         default: return 0;
     }
 }
@@ -771,6 +1149,10 @@ uint8_t rgb_indicators_get_val(uint8_t indicator) {
         case 0: return rgb_indicators_config.num_lock_config.hsv.v;
         case 1: return rgb_indicators_config.caps_lock_config.hsv.v;
         case 2: return rgb_indicators_config.scroll_lock_config.hsv.v;
+        case 3: return rgb_indicators_config.layer_1_config.hsv.v;
+        case 4: return rgb_indicators_config.layer_2_config.hsv.v;
+        case 5: return rgb_indicators_config.layer_3_config.hsv.v;
+        case 6: return rgb_indicators_config.layer_4_config.hsv.v;
         default: return 0;
     }
 }
@@ -780,7 +1162,11 @@ HSV rgb_indicators_get_hsv(uint8_t indicator) {
         case 0: return rgb_indicators_config.num_lock_config.hsv;
         case 1: return rgb_indicators_config.caps_lock_config.hsv;
         case 2: return rgb_indicators_config.scroll_lock_config.hsv;
-        default: return rgb_indicators_config.scroll_lock_config.hsv;
+        case 3: return rgb_indicators_config.layer_1_config.hsv;
+        case 4: return rgb_indicators_config.layer_2_config.hsv;
+        case 5: return rgb_indicators_config.layer_3_config.hsv;
+        case 6: return rgb_indicators_config.layer_4_config.hsv;
+        default: return rgb_indicators_config.scroll_lock_config.hsv; // Default case
     }
 }
 
@@ -852,6 +1238,62 @@ static void rgb_indicators_set_color(uint8_t indicator, HSV hsv) {
 #endif
             break;
         }
+        case 3: {
+            if (rgb_indicators_state.layer_1 == 1) {
+            RGB rgb = hsv_to_rgb(hsv);
+                if (rgb_indicators_get_multiple_led(indicator) == 1)
+                    rgb_indicators_set_color_multiple(indicator, rgb);
+                else
+                    rgb_matrix_set_color(rgb_indicators_config.layer_1_config.led, rgb.r, rgb.g, rgb.b);
+            }
+#ifdef ENABLE_RGB_INDICATORS_RANDOM_ONCE
+            else
+                changed[3] = 0;
+#endif
+            break;
+        }
+        case 4: {
+            if (rgb_indicators_state.layer_2 == 1) {
+            RGB rgb = hsv_to_rgb(hsv);
+                if (rgb_indicators_get_multiple_led(indicator) == 1)
+                    rgb_indicators_set_color_multiple(indicator, rgb);
+                else
+                    rgb_matrix_set_color(rgb_indicators_config.layer_2_config.led, rgb.r, rgb.g, rgb.b);
+            }
+#ifdef ENABLE_RGB_INDICATORS_RANDOM_ONCE
+            else
+                changed[4] = 0;
+#endif
+            break;
+        }
+        case 5: {
+            if (rgb_indicators_state.layer_3 == 1) {
+            RGB rgb = hsv_to_rgb(hsv);
+                if (rgb_indicators_get_multiple_led(indicator) == 1)
+                    rgb_indicators_set_color_multiple(indicator, rgb);
+                else
+                    rgb_matrix_set_color(rgb_indicators_config.layer_3_config.led, rgb.r, rgb.g, rgb.b);
+            }
+#ifdef ENABLE_RGB_INDICATORS_RANDOM_ONCE
+            else
+                changed[5] = 0;
+#endif
+            break;
+        }
+        case 6: {
+            if (rgb_indicators_state.layer_4 == 1) {
+            RGB rgb = hsv_to_rgb(hsv);
+                if (rgb_indicators_get_multiple_led(indicator) == 1)
+                    rgb_indicators_set_color_multiple(indicator, rgb);
+                else
+                    rgb_matrix_set_color(rgb_indicators_config.layer_4_config.led, rgb.r, rgb.g, rgb.b);
+            }
+#ifdef ENABLE_RGB_INDICATORS_RANDOM_ONCE
+            else
+                changed[6] = 0;
+#endif
+            break;
+        }
         default: break;
     }
 }
@@ -871,11 +1313,11 @@ void rgb_indicators_breathing(uint8_t indicator) {
 #endif
 
 #ifdef ENABLE_RGB_INDICATORS_CYCLEBREATHING
-static uint8_t is_breathing_highest[3] = {1};
-static uint8_t is_breathing_lowest[3] = {1};
-static uint8_t hue_index[3] = {0};
-static uint8_t val_index[3] = {0};
-static uint8_t hue_stepper[3] = {0};
+static uint8_t is_breathing_highest[7] = {1};
+static uint8_t is_breathing_lowest[7] = {1};
+static uint8_t hue_index[7] = {0};
+static uint8_t val_index[7] = {0};
+static uint8_t hue_stepper[7] = {0};
 
 void rgb_indicators_cyclebreathing(uint8_t indicator) {
     HSV hsv = rgb_indicators_get_hsv(indicator);
@@ -911,8 +1353,8 @@ void rgb_indicators_cycleall(uint8_t indicator) {
 #endif
 
 #ifdef ENABLE_RGB_INDICATORS_RANDOM
-static uint8_t timer[3] = {0};
-static uint8_t hue[3] = {0};
+static uint8_t timer[7] = {0};
+static uint8_t hue[7] = {0};
 void rgb_indicators_random(uint8_t indicator) {
     HSV hsv = rgb_indicators_get_hsv(indicator);
     if (timer[indicator] > 50) {
@@ -928,7 +1370,7 @@ void rgb_indicators_random(uint8_t indicator) {
 #endif
 
 #ifdef ENABLE_RGB_INDICATORS_RANDOM_ONCE
-static uint8_t hue_once[3] = {0};
+static uint8_t hue_once[7] = {0};
 void rgb_indicators_random_once(uint8_t indicator) {
     HSV hsv = rgb_indicators_get_hsv(indicator);
     if (changed[indicator] == 0) {
@@ -953,9 +1395,34 @@ bool process_rgb_indicators(uint16_t keycode, keyrecord_t *record) {
                 caps_lock_indicator_toggle();
             }
             return false;
+
         case RGB_IND_SCROLL_LOCK_TOG:
             if (record->event.pressed) {
                 scroll_lock_indicator_toggle();
+            }
+            return false;
+        
+        case RGB_IND_LAYER_1_TOG:
+            if (record->event.pressed) {
+                layer_1_indicator_toggle();  // 切换 Layer 1 指示灯状态
+            }
+            return false;
+
+        case RGB_IND_LAYER_2_TOG:
+            if (record->event.pressed) {
+                layer_2_indicator_toggle();  // 切换 Layer 2 指示灯状态
+            }
+            return false;
+
+        case RGB_IND_LAYER_3_TOG:
+            if (record->event.pressed) {
+                layer_3_indicator_toggle();  // 切换 Layer 3 指示灯状态
+            }
+            return false;
+
+        case RGB_IND_LAYER_4_TOG:
+            if (record->event.pressed) {
+                layer_4_indicator_toggle();  // 切换 Layer 4 指示灯状态
             }
             return false;
         
@@ -964,6 +1431,7 @@ bool process_rgb_indicators(uint16_t keycode, keyrecord_t *record) {
                 rgb_indicators_mode_step();
             }
             return false;
+    
         case RGB_INDS_MODE_R:
             if (record->event.pressed) {
                 rgb_indicators_mode_step_reverse();
@@ -1012,7 +1480,6 @@ bool process_rgb_indicators(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
-
 /*
 bool process_rgb_indicators(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
