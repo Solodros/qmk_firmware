@@ -79,6 +79,12 @@ enum via_custom_keycodes {
     RGB_INDS_VI,
     RGB_INDS_VD,
 #endif
+
+//#ifdef VIA_CUSTOM_SETTING_KEYCODE_ENABLE
+    WIN_LOCK,
+    CLEAR_EEPROM,
+    D3U4,
+//#endif
     NEW_USER,
 };
 

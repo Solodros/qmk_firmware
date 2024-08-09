@@ -16,7 +16,6 @@
 
 #include "magic_settings.h"
 #include "eeprom.h"
-
 #ifdef MOUSEKEY_ENABLE
 #include "mousekey.h"
 #endif
@@ -198,7 +197,8 @@ void auto_shift_maigc_settings_reset(void) {
 
 #ifndef NO_ACTION_ONESHOT
 void oneshot_maigc_settings_reset(void) {
-    keymap_config.oneshot_enable = 0;//默认不打开
+    oneshot_disable();//默认不打开
+//  oneshot_enable();//默认打开
     magic_settings_config.oneshot_tap_toggle = ONESHOT_TAP_TOGGLE;
     magic_settings_config.oneshot_timeout = ONESHOT_TIMEOUT;
 }
@@ -206,7 +206,9 @@ void oneshot_maigc_settings_reset(void) {
 
 #ifndef AUTOCORRECT_ENABLE
 void autocorect_maigc_settings_reset(void) {
-    keymap_config.autocorrect_enable = 0;//默认不打开
+    keymap_config.autocorrect_enable = false;
+//    typo_buffer_size                 = 0;
+    eeconfig_update_keymap(keymap_config.raw);
 }
 #endif
 

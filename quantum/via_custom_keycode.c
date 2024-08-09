@@ -33,6 +33,7 @@ bool process_via_custom_keycode(uint16_t keycode, keyrecord_t *record) {
             return false;
         }
 #endif
+
 #ifdef RADIAL_CONTROLLER_ENABLE
         case RD_BUT: {
             if (record->event.pressed) {
@@ -266,6 +267,37 @@ bool process_via_custom_keycode(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 #endif
+
+//#ifdef VIA_CUSTOM_SETTING_KEYCODE_ENABLE
+        case WIN_LOCK:
+            if (record->event.pressed) {
+                keymap_config.no_gui ^= 1;
+            }
+            return false;
+        case CLEAR_EEPROM:
+            if (record->event.pressed) {
+                #ifdef NO_RESET
+                        eeconfig_init();
+                #else
+                    eeconfig_disable();
+                    soft_reset_keyboard();
+                #endif
+            }
+            return false;
+        case D3U4:
+            if (!layer_state_is(3) && !layer_state_is(4)) {
+                if (record->event.pressed) {
+                    register_code16(keymap_key_to_keycode(3, record->event.key));
+                    // 按键被按下时，发送第5层的键码被按下
+                } else {
+                    unregister_code16(keymap_key_to_keycode(3, record->event.key));
+                    //松开时，发送第5层的键码被弹起
+                    tap_code16(keymap_key_to_keycode(4, record->event.key));
+                    // 按键被松开时，发送第6层的键码并弹起
+                }
+            }
+            return false;    
+//#endif
     }
     return true;
 }

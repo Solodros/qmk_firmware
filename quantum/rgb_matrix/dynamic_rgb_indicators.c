@@ -1036,7 +1036,7 @@ uint8_t rgb_indicators_get_indicator(void) {
 }
 
 uint8_t rgb_indicators_get_multiple_led(uint8_t indicator) {
-    return rgb_indicators_get_all_led(indicator) || rgb_indicators_get_key_led(indicator) ||
+    return rgb_indicators_get_all_led(indicator) || rgb_indicators_get_key_led(indicator) || \
            rgb_indicators_get_underglow_led(indicator) || rgb_indicators_get_logo_led(indicator);
 }
 
